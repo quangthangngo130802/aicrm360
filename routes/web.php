@@ -1,0 +1,98 @@
+<?php
+
+use App\Http\Controllers\Backend\AuthController;
+use App\Http\Controllers\Backend\BirthDayController;
+use App\Http\Controllers\Backend\BulkActionController;
+use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\ContractController;
+use App\Http\Controllers\Backend\ContractTypeController;
+use App\Http\Controllers\Backend\CustomerController;
+use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\EmployeeController;
+use App\Http\Controllers\Backend\EmployeeMonthlyWorkdayController;
+use App\Http\Controllers\Backend\MediaItemController;
+
+use App\Http\Controllers\Backend\MonthlyWorkdayController;
+use App\Http\Controllers\Backend\NotificationController;
+use App\Http\Controllers\Backend\OrderController;
+use App\Http\Controllers\Backend\PayrollController;
+use App\Http\Controllers\Backend\PermissionController;
+use App\Http\Controllers\Backend\SettingController;
+use App\Models\Employee;
+use App\Notifications\UserNotification;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+
+Route::middleware('admin.auth')->group(function () {
+
+    Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard/filter', [DashboardController::class, 'filterDashboard'])->name('dashboard.filter');
+
+    Route::post('handle-bulk-action', [BulkActionController::class, 'handleBulkAction']);
+
+    Route::get('logout', [AuthController::class, 'logout']);
+
+    Route::group(['middleware' => ['admin'],'prefix' => 'employees', 'controller' => EmployeeController::class], function () {
+        Route::get('/', 'index');
+        Route::get('save/{id?}', 'save');
+        Route::post('save', 'store');
+        Route::put('save/{id}', 'update');
+        Route::get('/view/{id}', 'view')->name('view');
+        Route::get('/information', 'information')->name('information');
+        Route::get('permissions', 'showPermissionForm');
+        Route::post('permissions', 'assignPermissions');
+    });
+
+    Route::group(['prefix' => 'customers', 'controller' => CustomerController::class], function () {
+        Route::get('/', 'index');
+        Route::get('save/{id?}', 'save');
+        Route::post('save', 'store');
+        Route::put('save/{id}', 'update');
+        Route::get('/view/{id}', 'view')->name('view');
+        Route::get('/information', 'information')->name('information');
+        Route::get('permissions', 'showPermissionForm');
+        Route::post('permissions', 'assignPermissions');
+    });
+
+    Route::group(['prefix' => 'orders', 'controller' => OrderController::class], function () {
+        Route::get('/', 'index');
+        Route::get('save/{id?}', 'save');
+        Route::post('save', 'store');
+        Route::put('save/{id}', 'update');
+        Route::get('/view/{id}', 'view')->name('view');
+    });
+
+
+    Route::group(['prefix' => 'categorys', 'controller' => CategoryController::class], function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/excel-save', 'updateOrCreate');
+        Route::delete('/excel-delete', 'destroy');
+    });
+
+
+    Route::group(['prefix' => 'settings', 'controller' => SettingController::class], function () {
+        Route::get('/', 'index');
+        Route::post('/', 'save');
+    });
+
+    Route::group(['prefix' => 'notifications', 'controller' => NotificationController::class], function () {
+        Route::get('/', 'index');
+        Route::post('send', 'send');
+    });
+});
+
+
+Route::middleware('admin.guest')->group(function () {
+    Route::get('login', [AuthController::class, 'login'])->name('login');
+    Route::post('login', [AuthController::class, 'authenticate']);
+});
