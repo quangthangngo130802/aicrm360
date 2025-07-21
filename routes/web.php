@@ -73,14 +73,14 @@ Route::middleware('admin.auth')->group(function () {
     });
 
 
-    Route::group(['prefix' => 'categorys', 'controller' => CategoryController::class], function () {
+    Route::group(['middleware' => ['admin'],'prefix' => 'categorys', 'controller' => CategoryController::class], function () {
         Route::get('/', 'index')->name('index');
         Route::post('/excel-save', 'updateOrCreate');
         Route::delete('/excel-delete', 'destroy');
     });
 
 
-    Route::group(['prefix' => 'settings', 'controller' => SettingController::class], function () {
+    Route::group(['middleware' => ['admin'],'prefix' => 'settings', 'controller' => SettingController::class], function () {
         Route::get('/', 'index');
         Route::post('/', 'save');
     });

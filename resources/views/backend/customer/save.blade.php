@@ -62,6 +62,10 @@
                             </div>
 
                             <div class="col-md-6">
+                                <x-select label="Loại khách hàng" name="customer_category_id" :value="$customer->customer_category_id ?? ''" :options="$customerCategory" />
+                            </div>
+
+                            <div class="col-md-6">
                                 <x-input name="demand" id="demand" label="Nhu cầu"
                                     value="{{ $customer->demand ?? '' }}" />
                             </div>

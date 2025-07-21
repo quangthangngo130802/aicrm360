@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\ContractType;
+use App\Models\CustomerCategory;
 use App\Models\Department;
 use App\Models\EducationLevel;
 use App\Models\EmploymentStatus;
@@ -18,24 +19,27 @@ class CategoryController extends Controller
     public function index()
     {
         $sources = Source::pluck('name')->toArray();
-
+        $customerCategory = CustomerCategory::pluck('name')->toArray();
 
         $maxRows = max(
             count($sources),
+            count( $customerCategory),
             1
-
         );
 
-        return view('backend.config.category', compact('sources', 'maxRows'));
+        return view('backend.config.category', compact('sources', 'maxRows', 'customerCategory'));
     }
 
     public function updateOrCreate(Request $request)
     {
+
         $request->validate([
-            'table' => 'required|in:sources',
+            'table' => 'required|in:sources,customer_categories',
             'name' => 'required|string|max:255',
             'original_name' => 'nullable|string'
         ]);
+
+
 
         $modelMap = $this->modelMap();
         $model = $modelMap[$request->table];
@@ -78,7 +82,7 @@ class CategoryController extends Controller
     public function destroy(Request $request)
     {
         $request->validate([
-            'table' => 'required|in:sources',
+            'table' => 'required|in:sources,customer_categories',
             'name' => 'required|string|max:255',
         ]);
 
@@ -100,7 +104,7 @@ class CategoryController extends Controller
     {
         return [
             'sources' => Source::class,
-
+            'customer_categories' => CustomerCategory::class,
         ];
     }
 }

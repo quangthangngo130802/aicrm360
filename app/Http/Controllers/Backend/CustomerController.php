@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerRequest;
 use App\Models\Customer;
+use App\Models\CustomerCategory;
 use App\Traits\DataTables;
 use App\Traits\QueryBuilder;
 use Carbon\Carbon;
@@ -52,21 +53,23 @@ class CustomerController extends Controller
         $title          = "Tạo mới khách hàng";
         $customer       = null;
 
-
+        $customerCategory = CustomerCategory::pluck('name', 'id')->toArray();
         if (!empty($id)) {
             $customer   = Customer::findOrFail($id);
 
             $title      = "Chỉnh sửa khách hàng - {$customer->name}";
         }
 
-        return view('backend.customer.save', compact('title', 'customer'));
+        return view('backend.customer.save', compact('title', 'customer', 'customerCategory'));
     }
 
     public function store(CustomerRequest $request)
     {
 
         return transaction(function () use ($request) {
+
             $credentials = $request->validated();
+
             $credentials['code'] ??= $this->generateCustomerCode();
 
             if (!empty($credentials['birthday'])) {

@@ -15,7 +15,7 @@
                 <thead>
                     <tr>
                         <th>Nguồn khách hàng</th>
-
+                        <th>Phân loại khách hàng</th>
                     </tr>
                 </thead>
 
@@ -26,6 +26,11 @@
                             <td>
                                 <input type="text" class="form-control" data-table="sources"
                                     value="{{ $sources[$i] ?? '' }}" data-original="{{ $sources[$i] ?? '' }}">
+                            </td>
+
+                            <td>
+                                <input type="text" class="form-control" data-table="customer_categories"
+                                    value="{{ $customerCategory[$i] ?? '' }}" data-original="{{ $customerCategory[$i] ?? '' }}">
                             </td>
 
                         </tr>

@@ -19,14 +19,14 @@ class CustomerRequest extends FormRequest
         $id = $this->route('id', null); // dùng cho update
 
         return [
-            'code'          => ['nullable', 'string', 'max:50', "unique:customers,code,{$id}"],
-            'name'          => ['required', 'string', 'max:255'],
-            'phone'         => ['required', 'string', 'regex:/^0\d{9}$/', "unique:customers,phone,{$id}"],
-            'email'         => ['required', 'email', 'max:255', "unique:customers,email,{$id}"],
-            'gender'        => ['required', 'in:male,female,other'],
-            'area'          => ['required', 'string', 'max:255'],
-            'birthday'      => ['nullable', 'date_format:d-m-Y', 'before:today'],
-
+            'code'               => ['nullable', 'string', 'max:50', "unique:customers,code,{$id}"],
+            'name'               => ['required', 'string', 'max:255'],
+            'phone'              => ['required', 'string', 'regex:/^0\d{9}$/', "unique:customers,phone,{$id}"],
+            'email'              => ['required', 'email', 'max:255', "unique:customers,email,{$id}"],
+            'gender'             => ['required', 'in:male,female,other'],
+            'area'               => ['required', 'string', 'max:255'],
+            'birthday'           => ['nullable', 'date_format:d-m-Y', 'before:today'],
+            'customer_category_id'           => ['required'],
             // Các trường khác cho phép null
             'company_name'      => ['nullable', 'string', 'max:255'],
             'company_phone'     => ['nullable', 'string', 'regex:/^0\d{9}$/'],

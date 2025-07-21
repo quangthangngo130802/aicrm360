@@ -26,7 +26,7 @@ class Customer extends Model
         'facebook_link',
         'youtube_link',
         'instagram_link',
-
+        'customer_category_id'
     ];
 
     // Nếu có quan hệ với bảng `sources`
@@ -38,5 +38,10 @@ class Customer extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(CustomerCategory::class, 'customer_category_id');
     }
 }

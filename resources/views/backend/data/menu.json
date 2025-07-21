@@ -16,6 +16,16 @@
         "url": "/customers"
     },
     {
+        "title": "Quản lý lịch hẹn",
+        "icon": "fas fa-calendar-check",
+        "url": "/error"
+    },
+    {
+        "title": "Nhật ký chăn sóc KH",
+        "icon": "fas fa-notes-medical",
+        "url": "/error"
+    },
+    {
         "title": "Quản lý đơn hàng",
         "icon": "fas fa-file-invoice",
         "url": "/orders"
