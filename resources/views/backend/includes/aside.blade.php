@@ -4,15 +4,23 @@
 <!--navigation-->
 @php
     $menus = json_decode(file_get_contents(resource_path('views/backend/data/menu.json')), true);
-    $currentUrl = request()->path(); // VD: 'employees' (không có /)
+    $currentUrl = request()->path(); // VD: 'employees'
+    $isAdmin = Auth::user()->is_admin;
 @endphp
 
 <ul class="metismenu" id="menu">
     @foreach ($menus as $item)
         @php
+            $itemIsAdmin = $item['is_admin'] ?? null;
+
+            // Ẩn menu nếu is_admin = 1 mà user không phải admin
+            if ($itemIsAdmin === 1 && $isAdmin != 1) {
+                continue;
+            }
+
             $open = isMenuActive($item, $currentUrl) ? 'mm-active' : '';
-            logger($open);
         @endphp
+
         <li class="{{ $open }}">
             <a href="{{ $item['url'] }}" class="{{ isset($item['children']) ? 'has-arrow' : '' }}">
                 <div class="parent-icon">
@@ -25,21 +33,20 @@
                 <ul>
                     @foreach ($item['children'] as $child)
                         @php
-                            $isAdmin = auth('admin')->user()->isAdmin();
-
+                            $childIsAdmin = $child['is_admin'] ?? null;
+                            if ($childIsAdmin === 1 && $isAdmin != 1) {
+                                continue;
+                            }
                         @endphp
 
-
-                            <li class="{{ isChildActive($child, $currentUrl) ? 'mm-active' : '' }}">
-                                <a href="{{ $child['url'] }}">
-                                    <i class="far fa-dot-circle me-2"></i> {{ $child['title'] }}
-                                </a>
-                            </li>
-                       
+                        <li class="{{ isChildActive($child, $currentUrl) ? 'mm-active' : '' }}">
+                            <a href="{{ $child['url'] }}">
+                                <i class="far fa-dot-circle me-2"></i> {{ $child['title'] }}
+                            </a>
+                        </li>
                     @endforeach
                 </ul>
             @endif
-
         </li>
     @endforeach
 </ul>

@@ -2,19 +2,16 @@
 
 @section('content')
     <div class="p-6 mx-auto">
-        <h1 class="text-3xl font-bold mb-6">Dashboard Quản trị</h1>
+        <h1 class="text-3xl font-bold mb-6">Dashboard</h1>
 
         <!-- Bộ lọc thời gian -->
         <!-- Bộ lọc -->
         <!-- Nút lọc -->
 
         <div class="flex flex-wrap gap-2 mb-4">
-            <button class="filter-btn px-4 py-2 bg-blue-600  border rounded-lg text-white" data-filter="today">Hôm
-                nay</button>
-            <button class="filter-btn px-4 py-2 bg-white border rounded-lg text-gray-700" data-filter="yesterday">Hôm
-                qua</button>
-            <button class="filter-btn px-4 py-2 bg-white border rounded-lg text-gray-700" data-filter="last_7_days">7 ngày
-                qua</button>
+            <button class="filter-btn px-4 py-2 bg-blue-600  border rounded-lg text-white" data-filter="today">Hôm nay</button>
+            <button class="filter-btn px-4 py-2 bg-white border rounded-lg text-gray-700" data-filter="yesterday">Hôm qua</button>
+            <button class="filter-btn px-4 py-2 bg-white border rounded-lg text-gray-700" data-filter="last_7_days">7 ngày qua</button>
 
             <!-- Nút hiện bộ lọc -->
             <button id="show-custom-date" class="px-4 py-2 bg-white border rounded-lg text-gray-700">Tùy chỉnh</button>
@@ -28,11 +25,6 @@
                     class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Lọc</button>
             </div>
         </div>
-
-
-
-
-
 
         <!-- Số liệu thống kê -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">

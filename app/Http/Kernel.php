@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'admin.auth' => \App\Http\Middleware\AdminAuthenticate::class,
         'admin.guest' => \App\Http\Middleware\AdminRedirectIfAuthenticated::class,
         'admin' => \App\Http\Middleware\CheckAdmin::class,
+        'restrict.admin.write' => \App\Http\Middleware\RestrictAdminWriteActions::class,
     ];
 }

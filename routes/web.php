@@ -42,7 +42,7 @@ Route::middleware('admin.auth')->group(function () {
 
     Route::get('logout', [AuthController::class, 'logout']);
 
-    Route::group(['middleware' => ['admin'],'prefix' => 'employees', 'controller' => EmployeeController::class], function () {
+    Route::group(['middleware' => ['admin'], 'prefix' => 'employees', 'controller' => EmployeeController::class], function () {
         Route::get('/', 'index');
         Route::get('save/{id?}', 'save');
         Route::post('save', 'store');
@@ -55,32 +55,34 @@ Route::middleware('admin.auth')->group(function () {
 
     Route::group(['prefix' => 'customers', 'controller' => CustomerController::class], function () {
         Route::get('/', 'index');
-        Route::get('save/{id?}', 'save');
-        Route::post('save', 'store');
-        Route::put('save/{id}', 'update');
-        Route::get('/view/{id}', 'view')->name('view');
-        Route::get('/information', 'information')->name('information');
-        Route::get('permissions', 'showPermissionForm');
-        Route::post('permissions', 'assignPermissions');
+
+        Route::middleware('restrict.admin.write')->group(function () {
+            Route::get('save/{id?}', 'save');
+            Route::post('save', 'store');
+            Route::put('save/{id}', 'update');
+        });
+
+
     });
 
     Route::group(['prefix' => 'orders', 'controller' => OrderController::class], function () {
         Route::get('/', 'index');
-        Route::get('save/{id?}', 'save');
-        Route::post('save', 'store');
-        Route::put('save/{id}', 'update');
-        Route::get('/view/{id}', 'view')->name('view');
+        Route::middleware('restrict.admin.write')->group(function () {
+            Route::get('save/{id?}', 'save');
+            Route::post('save', 'store');
+            Route::put('save/{id}', 'update');
+        });
     });
 
 
-    Route::group(['middleware' => ['admin'],'prefix' => 'categorys', 'controller' => CategoryController::class], function () {
+    Route::group(['middleware' => ['admin'], 'prefix' => 'categorys', 'controller' => CategoryController::class], function () {
         Route::get('/', 'index')->name('index');
         Route::post('/excel-save', 'updateOrCreate');
         Route::delete('/excel-delete', 'destroy');
     });
 
 
-    Route::group(['middleware' => ['admin'],'prefix' => 'settings', 'controller' => SettingController::class], function () {
+    Route::group(['middleware' => ['admin'], 'prefix' => 'settings', 'controller' => SettingController::class], function () {
         Route::get('/', 'index');
         Route::post('/', 'save');
     });

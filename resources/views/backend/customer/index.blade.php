@@ -4,9 +4,11 @@
     <x-breadcrumb :breadcrumbs="[['label' => 'Khách hàng']]" />
 
     <x-page-header title="Danh sách khách hàng">
-        <a href="/customers/save" class="btn btn-primary">
-            <i class="fas fa-plus me-1"></i> Tạo mới khách hàng
-        </a>
+        @if (Auth::user()->is_admin != 1)
+            <a href="/customers/save" class="btn btn-primary">
+                <i class="fas fa-plus me-1"></i> Tạo mới khách hàng
+            </a>
+        @endif
     </x-page-header>
 
     <x-table fileName="customer" />
@@ -14,13 +16,12 @@
 
 @push('scripts')
     <script>
+        const isAdmin = @json($isAdmin);
         $(function() {
             const api = "/customers"
             dataTables(api, {
-                fixedColumns: {
-                    left: 6,
-                    right: 2
-                },
+                hasCheckbox: !isAdmin,
+                isOperation: !isAdmin,
             })
 
             handleDestroy('Customer')

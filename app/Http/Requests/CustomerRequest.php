@@ -23,9 +23,10 @@ class CustomerRequest extends FormRequest
             'name'               => ['required', 'string', 'max:255'],
             'phone'              => ['required', 'string', 'regex:/^0\d{9}$/', "unique:customers,phone,{$id}"],
             'email'              => ['required', 'email', 'max:255', "unique:customers,email,{$id}"],
-            'gender'             => ['required', 'in:male,female,other'],
             'area'               => ['required', 'string', 'max:255'],
             'birthday'           => ['nullable', 'date_format:d-m-Y', 'before:today'],
+            'gender'             => ['required', 'in:male,female,other'],
+
             'customer_category_id'           => ['required'],
             // Các trường khác cho phép null
             'company_name'      => ['nullable', 'string', 'max:255'],
@@ -55,7 +56,7 @@ class CustomerRequest extends FormRequest
             'email'             => 'Email',
             'gender'            => 'Giới tính',
             'career'            => 'Nghề nghiệp',
-            'area'              => 'Khu vực',
+            'area'              => 'Địa chỉ',
             'source_id'         => 'Nguồn khách hàng',
             'company_name'      => 'Tên công ty',
             'company_phone'     => 'SĐT công ty',

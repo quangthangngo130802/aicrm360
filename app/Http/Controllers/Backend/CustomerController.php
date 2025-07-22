@@ -44,7 +44,7 @@ class CustomerController extends Controller
             );
         }
 
-        return view('backend.customer.index');
+        return view('backend.customer.index', ['isAdmin' => Auth::user()->is_admin]);
     }
 
     public function save(?string $id = null)
@@ -96,7 +96,6 @@ class CustomerController extends Controller
             if (!empty($credentials['birthday'])) {
                 $credentials['birthday'] = Carbon::createFromFormat('d-m-Y', $credentials['birthday'])->format('Y-m-d');
             }
-            $credentials['user_id'] = Auth::user()->id;
             // Cập nhật nhân viên
             $customer->update($credentials);
             return successResponse("Lưu thay đổi thành công", ['redirect' => '/customers']);
@@ -106,19 +105,19 @@ class CustomerController extends Controller
     private function generateCustomerCode(): string
     {
         $lastCode = Customer::query()
-            ->where('code', 'like', 'KH%')
+            ->where('code', 'like', 'CRM%')
             ->orderByDesc(DB::raw('CAST(SUBSTRING(code, 3) AS UNSIGNED)'))
             ->value('code');
 
         if (!$lastCode) {
-            return 'KH00001';
+            return 'CRM00001';
         }
 
         // Lấy phần số phía sau mã
-        $number = (int) Str::after($lastCode, 'KH');
+        $number = (int) Str::after($lastCode, 'CRM');
         $nextNumber = $number + 1;
 
         // Luôn pad đến 5 chữ số
-        return 'NS' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+        return 'CRM' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
     }
 }

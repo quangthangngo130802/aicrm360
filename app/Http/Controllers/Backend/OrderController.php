@@ -55,7 +55,7 @@ class OrderController extends Controller
             );
         }
 
-        return view('backend.order.index');
+        return view('backend.order.index', ['isAdmin' => Auth::user()->is_admin]);
     }
 
 
