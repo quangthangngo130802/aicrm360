@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="p-6 mx-auto">
-        <h1 class="text-3xl font-bold mb-6">Dashboard Quản trị ZNS</h1>
+        <h1 class="text-3xl font-bold mb-6">Dashboard Quản trị</h1>
 
         <!-- Bộ lọc thời gian -->
         <!-- Bộ lọc -->

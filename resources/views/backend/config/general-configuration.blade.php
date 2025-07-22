@@ -29,10 +29,10 @@
                                 <x-input name="address" id="address" label="Địa chỉ" value="{{ $setting->address }}" />
                             </div>
 
-                            <div class="col-md-12">
+                            {{-- <div class="col-md-12">
                                 <x-input name="copyright" id="copyright" label="Trân trang"
                                     value="{{ $setting->copyright }}" />
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -43,13 +43,13 @@
 
                 <x-submit />
 
-                <x-card title="Logo" class="text-center">
+                {{-- <x-card title="Logo" class="text-center">
                     <x-file name="logo" width="100%" :value="fileExists($setting->logo)" />
                 </x-card>
 
                 <x-card title="Icon" class="text-center">
                     <x-file name="favicon" width="100%" :value="fileExists($setting->favicon)" />
-                </x-card>
+                </x-card> --}}
 
             </div>
         </div>

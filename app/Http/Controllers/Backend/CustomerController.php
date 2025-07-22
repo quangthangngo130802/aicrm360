@@ -29,7 +29,7 @@ class CustomerController extends Controller
                 columns: ['*'],
             );
 
-            if (!$user->is_admin) {
+            if ($user->is_admin == 0) {
                 $query->where('user_id', $user->id);
             }
 
@@ -72,6 +72,8 @@ class CustomerController extends Controller
 
             $credentials['code'] ??= $this->generateCustomerCode();
 
+            $credentials['user_id'] = Auth::user()->id;
+
             if (!empty($credentials['birthday'])) {
                 $credentials['birthday'] = Carbon::createFromFormat('d-m-Y', $credentials['birthday'])->format('Y-m-d');
             }
@@ -94,7 +96,7 @@ class CustomerController extends Controller
             if (!empty($credentials['birthday'])) {
                 $credentials['birthday'] = Carbon::createFromFormat('d-m-Y', $credentials['birthday'])->format('Y-m-d');
             }
-
+            $credentials['user_id'] = Auth::user()->id;
             // Cập nhật nhân viên
             $customer->update($credentials);
             return successResponse("Lưu thay đổi thành công", ['redirect' => '/customers']);
