@@ -68,6 +68,7 @@ class CustomerRequest extends FormRequest
             'facebook_link'     => 'Link Facebook',
             'youtube_link'      => 'Link Youtube',
             'instagram_link'    => 'Link Instagram',
+            'customer_category_id' => 'Loại khách hàng'
         ];
     }
 }
