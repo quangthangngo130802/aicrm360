@@ -33,8 +33,8 @@ const columns = [
         orderable: false,
     },
     {
-        data: "address",
-        name: "address",
+        data: "area",
+        name: "area",
         title: "Địa chỉ",
         render: (data) =>
             data || '<small class="text-muted">Chưa cập nhật...</small>',
