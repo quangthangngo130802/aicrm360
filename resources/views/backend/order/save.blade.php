@@ -43,7 +43,10 @@
                                 <x-select label="Trạng thái đơn hàng" name="status" :value="$order->status?->value ?? ''" :options="$orderStatuses" />
                             </div>
 
-
+                            <div class="col-md-12">
+                                <label for="note" class="form-label">Thông tin đơn hàng</label>
+                                <textarea name="note" id="note" class="form-control" rows="3">{{ $order->note ?? '' }}</textarea>
+                            </div>
                         </div>
                     </div>
                 </div>

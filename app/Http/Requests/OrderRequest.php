@@ -23,7 +23,7 @@ class OrderRequest extends FormRequest
             'user_id'       => ['nullable', 'exists:users,id'],
             'total_amount'  => ['required', 'min:0'],
             'status'        => ['required', 'in:pending,processing,completed,cancelled'],
-
+            'note'          => ['required'],
         ];
     }
 
@@ -40,6 +40,7 @@ class OrderRequest extends FormRequest
             'user_id'       => 'Nhân viên phụ trách',
             'status'        => 'Trạng thái đơn hàng',
             'total_amount'  => 'Tổng tiền',
+            'note'          => 'Thông tin đơn hàng',
         ];
     }
 }

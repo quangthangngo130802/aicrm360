@@ -32,6 +32,41 @@
         </div>
 
         <div class="card mb-4">
+            <div class="card-header "><strong>👥 Khách hàng tương tác hôm nay</strong></div>
+            <div class="card-body">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Tên KH</th>
+                            <th>Điện thoại</th>
+                            <th>Lý do</th>
+                            <th>Lịch hẹn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($customerNow as $customer)
+                            @foreach ($customer->appointments as $appointment)
+                                <tr>
+                                    <td>{{ $customer->name }}</td>
+                                    <td>{{ $customer->phone }}</td>
+                                    <td>{{ $appointment->note }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($appointment->scheduled_at)->format('H:i') }} hôm nay</td>
+                                </tr>
+                            @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">
+                                    Không có khách hàng tương tác hôm nay.
+                                </td>
+                            </tr>
+                        @endforelse
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mb-4">
             <div class="card-header "><strong>📆 Lịch hẹn sắp diễn ra</strong></div>
             <div class="card-body">
                 <ul class="list-group">
@@ -51,46 +86,10 @@
             </div>
         </div>
 
-        <div class="card mb-4">
-            <div class="card-header "><strong>👥 Khách hàng tương tác hôm nay</strong></div>
-            <div class="card-body">
-                <table class="table table-hover mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Tên KH</th>
-                            <th>Điện thoại</th>
-                            <th>Lý do</th>
-                            <th>Lịch hẹn</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($customerNow as $customer)
-                            @php
-                                $appointment = $customer->appointments->first(); // lấy lịch hẹn đầu tiên trong ngày
-                            @endphp
-                            <tr>
-                                <td>{{ $customer->name }}</td>
-                                <td>{{ $customer->phone }}</td>
-                                <td>
-                                    {{ $appointment->note }}
-                                </td>
-                                <td>
-                                    {{ \Carbon\Carbon::parse($appointment->scheduled_at)->format('H:i') }} hôm nay
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="3" class="text-center text-muted">Không có khách hàng tương tác hôm nay.
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-        </div>
+
 
         <!-- Khách hàng mới trong tuần -->
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-header"><strong>🆕 Khách hàng mới trong tuần</strong></div>
             <div class="card-body">
                 <ul class="mb-0">
@@ -102,11 +101,11 @@
                             {{ $customer->name }} - {{ $appointmentNote ?? 'Không có ghi chú' }}
                         </li>
                     @empty
-                        <li class="text-muted">Không có khách hàng mới nào trong tuần.</li>
+                        <li>Không có khách hàng mới nào trong tuần.</li>
                     @endforelse
                 </ul>
             </div>
-        </div>
+        </div> --}}
 
     </div>
 @endsection

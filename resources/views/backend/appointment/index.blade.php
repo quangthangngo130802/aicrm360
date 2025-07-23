@@ -6,11 +6,11 @@
         <x-breadcrumb :breadcrumbs="[['label' => 'Quản lý Lịch Hẹn']]" />
 
         <x-page-header title="Quản lý Lịch Hẹn">
-            {{-- @if (Auth::user()->is_admin != 1) --}}
+            @if (Auth::user()->is_admin == 1)
             <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAppointmentModal">
                 <i class="fas fa-plus me-1"></i> Tạo lịch hẹn mới
             </a>
-            {{-- @endif --}}
+            @endif
         </x-page-header>
 
         <!-- Filter Section -->

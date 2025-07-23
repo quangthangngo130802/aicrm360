@@ -14,68 +14,7 @@
     </form>
     <div class="top-navbar-right ms-auto">
         <ul class="navbar-nav align-items-center">
-            <li class="nav-item">
-                <a class="nav-link mobile-search-button" href="javascript:;">
-                    <div class="">
-                        <ion-icon name="search-outline"></ion-icon>
-                    </div>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link dark-mode-icon" href="javascript:;">
-                    <div class="mode-icon">
-                        <ion-icon name="moon-outline"></ion-icon>
-                    </div>
-                </a>
-            </li>
-            <li class="nav-item dropdown dropdown-large dropdown-apps">
-                <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;"
-                    data-bs-toggle="dropdown">
-                    <div class="">
-                        <ion-icon name="apps-outline"></ion-icon>
-                    </div>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
-                    <div class="row row-cols-3 g-3 p-3">
-                        <div class="col text-center">
-                            <div class="app-box mx-auto bg-gradient-purple text-white">
-                                <ion-icon name="cart-outline"></ion-icon>
-                            </div>
-                            <div class="app-title">Orders</div>
-                        </div>
-                        <div class="col text-center">
-                            <div class="app-box mx-auto bg-gradient-info text-white">
-                                <ion-icon name="people-outline"></ion-icon>
-                            </div>
-                            <div class="app-title">Teams</div>
-                        </div>
-                        <div class="col text-center">
-                            <div class="app-box mx-auto bg-gradient-success text-white">
-                                <ion-icon name="shield-checkmark-outline"></ion-icon>
-                            </div>
-                            <div class="app-title">Tasks</div>
-                        </div>
-                        <div class="col text-center">
-                            <div class="app-box mx-auto bg-gradient-danger text-white">
-                                <ion-icon name="videocam-outline"></ion-icon>
-                            </div>
-                            <div class="app-title">Media</div>
-                        </div>
-                        <div class="col text-center">
-                            <div class="app-box mx-auto bg-gradient-warning text-white">
-                                <ion-icon name="file-tray-outline"></ion-icon>
-                            </div>
-                            <div class="app-title">Files</div>
-                        </div>
-                        <div class="col text-center">
-                            <div class="app-box mx-auto bg-gradient-branding text-white">
-                                <ion-icon name="notifications-outline"></ion-icon>
-                            </div>
-                            <div class="app-title">Alerts</div>
-                        </div>
-                    </div>
-                </div>
-            </li>
+      
             <li class="nav-item dropdown dropdown-large">
                 <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;"
                     data-bs-toggle="dropdown">

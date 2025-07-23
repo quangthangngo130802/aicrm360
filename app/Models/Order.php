@@ -17,6 +17,7 @@ class Order extends Model
         'user_id',
         'status',
         'total_amount',
+        'note'
     ];
 
     // Quan hệ: đơn hàng thuộc về khách hàng

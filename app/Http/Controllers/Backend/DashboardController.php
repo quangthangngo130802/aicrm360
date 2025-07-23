@@ -21,31 +21,47 @@ class DashboardController extends Controller
         if ($user->is_admin == 0) {
             $today = Carbon::today();
             $tomorrow = Carbon::tomorrow();
-            $appointmentCount = Appointment::whereBetween('scheduled_at', [$today, $tomorrow])->count();
-
             $startDate = Carbon::tomorrow();
             $endDate = Carbon::now()->endOfWeek();
-
-            $appointmentNextCount = Appointment::whereBetween('scheduled_at', [$startDate, $endDate])->count();
-
             $startOfWeek = Carbon::now()->startOfWeek();
             $endOfWeek = Carbon::now()->endOfWeek();
 
-            $customerCount = Customer::whereHas('appointments', function ($query) use ($startOfWeek, $endOfWeek) {
-                $query->whereBetween('scheduled_at', [$startOfWeek, $endOfWeek]);
+            // Đếm lịch hôm nay của chính user
+            $appointmentCount = Appointment::whereBetween('scheduled_at', [$today, $tomorrow])
+                ->where('user_id', $user->id)
+                ->count();
+
+            // Đếm lịch còn lại trong tuần (sau hôm nay)
+            $appointmentNextCount = Appointment::whereBetween('scheduled_at', [$startDate, $endDate])
+                ->where('user_id', $user->id)
+                ->count();
+
+            // Đếm khách hàng có lịch trong tuần thuộc user
+            $customerCount = Customer::whereHas('appointments', function ($query) use ($startOfWeek, $endOfWeek, $user) {
+                $query->whereBetween('scheduled_at', [$startOfWeek, $endOfWeek])
+                    ->where('user_id', $user->id);
             })->count();
 
-            $appointmentNext = Appointment::whereBetween('scheduled_at', [$startDate, $endDate])->limit(5)->get();  // lịch sắp diễn ra
+            // Lấy 5 lịch sắp diễn ra thuộc user
+            $appointmentNext = Appointment::whereBetween('scheduled_at', [$startDate, $endDate])
+                ->where('user_id', $user->id)
+                ->orderBy('scheduled_at')
+                ->limit(5)
+                ->get();
 
-            $customerNow = Customer::whereHas('appointments', function ($query) use ($today, $tomorrow) {
-                $query->whereBetween('scheduled_at',  [$today, $tomorrow]);
+            // Lấy khách có lịch hôm nay của user
+            $customerNow = Customer::whereHas('appointments', function ($query) use ($today, $tomorrow, $user) {
+                $query->whereBetween('scheduled_at', [$today, $tomorrow])
+                    ->where('user_id', $user->id);
             })->get();
 
-            $customers = Customer::whereHas('appointments', function ($query) use ($today, $tomorrow) {
-                $query->whereBetween('scheduled_at', [$today, $tomorrow]);
+
+            $customers = Customer::whereHas('appointments', function ($query) use ($today, $tomorrow, $user) {
+                $query->whereBetween('scheduled_at', [$today, $tomorrow])
+                ->where('user_id', $user->id);;
             })->get();
 
-            return view('backend.dashboardUser', compact('appointmentCount', 'appointmentNextCount', 'customerCount', 'appointmentNext',  'customerNow','customers'));
+            return view('backend.dashboardUser', compact('appointmentCount', 'appointmentNextCount', 'customerCount', 'appointmentNext',  'customerNow', 'customers'));
         }
         $filter = 'today';
         return view('backend.dashboard', [

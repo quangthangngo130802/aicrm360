@@ -70,7 +70,7 @@ class CustomerController extends Controller
 
             $credentials = $request->validated();
 
-            $credentials['code'] ??= $this->generateCustomerCode();
+            $credentials['code'] = $this->generateCustomerCode();
 
             $credentials['user_id'] = Auth::user()->id;
 
@@ -91,7 +91,7 @@ class CustomerController extends Controller
 
         return transaction(function () use ($request, $customer) {
             $credentials = $request->validated();
-            $credentials['code'] ??= $this->generateEmployeeCode();
+            $credentials['code'] ??= $this->generateCustomerCode();
 
             if (!empty($credentials['birthday'])) {
                 $credentials['birthday'] = Carbon::createFromFormat('d-m-Y', $credentials['birthday'])->format('Y-m-d');
@@ -104,20 +104,34 @@ class CustomerController extends Controller
 
     private function generateCustomerCode(): string
     {
-        $lastCode = Customer::query()
-            ->where('code', 'like', 'CRM%')
-            ->orderByDesc(DB::raw('CAST(SUBSTRING(code, 3) AS UNSIGNED)'))
-            ->value('code');
+        $maxAttempts = 5; // thử tối đa 5 lần
+        $prefix = 'CRM';
 
-        if (!$lastCode) {
-            return 'CRM00001';
+        for ($i = 0; $i < $maxAttempts; $i++) {
+            // Tìm mã code lớn nhất đang có
+            $lastCode = Customer::query()
+                ->where('code', 'like', $prefix . '%')
+                ->orderByDesc(DB::raw('CAST(SUBSTRING(code, ' . (strlen($prefix) + 1) . ') AS UNSIGNED)'))
+                ->value('code');
+
+            if (!$lastCode) {
+                $newCode = $prefix . '00001';
+            } else {
+                $number = (int) Str::after($lastCode, $prefix);
+                $nextNumber = $number + 1;
+                $newCode = $prefix . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+            }
+
+            // Kiểm tra xem mã này đã tồn tại chưa
+            $exists = Customer::where('code', $newCode)->exists();
+
+            if (!$exists) {
+                return $newCode;
+            }
+
+            // Nếu trùng thì thử lại (mã đã bị tạo bởi request khác)
         }
 
-        // Lấy phần số phía sau mã
-        $number = (int) Str::after($lastCode, 'CRM');
-        $nextNumber = $number + 1;
-
-        // Luôn pad đến 5 chữ số
-        return 'CRM' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+        throw new \Exception("Không thể tạo mã khách hàng duy nhất sau nhiều lần thử.");
     }
 }

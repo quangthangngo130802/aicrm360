@@ -87,12 +87,12 @@ class EmployeeController extends Controller
 
     public function update(EmployeeRequest $request, $id)
     {
-        // dd($request->all());
         $employee = User::findOrFail($id);
 
         return transaction(function () use ($request, $employee) {
             $credentials = $request->validated();
             $credentials['code'] ??= $this->generateEmployeeCode();
+            // dd($this->generateEmployeeCode());
 
             if (!empty($credentials['birthday'])) {
                 $credentials['birthday'] = Carbon::createFromFormat('d-m-Y', $credentials['birthday'])->format('Y-m-d');
