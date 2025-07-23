@@ -12,7 +12,6 @@ function submitForm(formId, successCallback, url = null, errorCallback = null) {
             '<i class="fas fa-spinner fa-pulse"></i> Đang gửi...'
         );
 
-        // ✅ Validate toàn bộ form dùng formValidator
         if (
             typeof formValidator !== "undefined" &&
             typeof formValidator.validate === "function"
@@ -23,7 +22,6 @@ function submitForm(formId, successCallback, url = null, errorCallback = null) {
             }
         }
 
-        // ✅ Cập nhật dữ liệu từ CKEditor nếu có
         if (typeof CKEDITOR !== "undefined") {
             for (const instance in CKEDITOR.instances) {
                 CKEDITOR.instances[instance].updateElement();
@@ -32,12 +30,11 @@ function submitForm(formId, successCallback, url = null, errorCallback = null) {
 
         const formData = new FormData(this);
 
-        // ✅ Xóa dấu chấm trong các input có class `format-price`
         $form.find(".format-price").each(function () {
             const name = $(this).attr("name");
-            if (!name) return; // bỏ qua nếu không có name
+            if (!name) return;
             const raw = $(this).val().replace(/\./g, "");
-            formData.set(name, raw); // Ghi đè vào FormData
+            formData.set(name, raw);
         });
 
         $.ajax({
@@ -100,7 +97,6 @@ $(document).on("input", ".format-price", function () {
 
     this.value = formatToVietnameseCurrency(this.value);
 
-    // Giữ lại vị trí con trỏ khi nhập
     let newLength = this.value.length;
     this.setSelectionRange(
         cursorPos + (newLength - originalLength),

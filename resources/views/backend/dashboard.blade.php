@@ -52,18 +52,17 @@
 
 @push('styles')
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Flatpickr CSS -->
-    <!-- Flatpickr CSS -->
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <!-- Giao diện Tailwind đẹp hơn -->
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
 @endpush
 
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Flatpickr JS -->
+
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <!-- Ngôn ngữ Tiếng Việt -->
+
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
     <script>
         function updateDashboard(data) {

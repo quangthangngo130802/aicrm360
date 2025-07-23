@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\AppointmentController;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\BirthDayController;
 use App\Http\Controllers\Backend\BulkActionController;
@@ -90,6 +91,15 @@ Route::middleware('admin.auth')->group(function () {
     Route::group(['prefix' => 'notifications', 'controller' => NotificationController::class], function () {
         Route::get('/', 'index');
         Route::post('send', 'send');
+    });
+
+    Route::group(['prefix' => 'apppointment', 'controller' => AppointmentController::class], function () {
+        Route::get('/', 'index');
+        Route::put('save/{id}', 'update');
+        Route::post('save', 'store');
+        Route::get('/view/{id}', 'view');
+        Route::post('/update-status','updateStatus');
+        Route::post('/delete','delete');
     });
 });
 

@@ -19,7 +19,7 @@
     {
         "title": "Quản lý lịch hẹn",
         "icon": "fas fa-calendar-check",
-        "url": "/error"
+        "url": "/apppointment"
     },
     {
         "title": "Nhật ký chăn sóc KH",

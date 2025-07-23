@@ -23,6 +23,12 @@
     <link rel="stylesheet" href="{{ asset('global/css/toastr.css') }}">
 </head>
 <style type="text/css">
+    body.form_page {
+        overflow: hidden;
+        height: 100vh;
+        margin: 0;
+    }
+
     #toast-container>div {
         width: auto !important;
     }
@@ -53,6 +59,11 @@
 
     .loginButton:disabled {
         cursor: no-drop;
+    }
+
+    .login_page .ct_left,
+    .login_page .ct_right {
+        min-height: 550px !important;
     }
 
 
@@ -236,7 +247,7 @@
                                 <label for="password" class="form-lable fw-bold">Mật khẩu</label>
                                 <div class="list_group">
                                     <input type="password" name="password" autocomplete="off" placeholder="Password"
-                                        id="password">
+                                        style="padding-left:46px;" id="password">
                                     <figure class="feild_icon">
                                         <img src="{{ asset('assets/backend/auth/images/login_padlock_icon.png') }}">
                                     </figure>

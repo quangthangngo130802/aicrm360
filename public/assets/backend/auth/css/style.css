@@ -1,4 +1,6 @@
 @import "textstyle.css";
+html {
+}
 
 body {
   font-family: rbt;
@@ -1830,6 +1832,12 @@ top: 10px;
   clear: none;
 }
 
+.customer_account .customer_info .text_widget ul>li:nth-child(1) {
+}
+
+.customer_account .customer_info .text_widget ul>li:nth-child(2) {
+}
+
 .customer_account .customer_info .text_widget ul li img {
   position: relative;
   top: -3px;
@@ -2129,7 +2137,7 @@ top: 10px;
   border-radius: 0px 10px 10px 0px;
   background: #fff;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-  padding: 28px 36px;
+  padding: 28px 45px 28px 45px;
   max-width: 450px;
 }
 
@@ -2192,6 +2200,8 @@ top: 10px;
   display: initial;
 }
 
+.login_page .ct_right .ct_right_ct {}
+
 .login_page .ct_right .ct_right_ct .login_translate {
   float: right;
   font-size: 15px;
@@ -2232,6 +2242,8 @@ top: 10px;
   text-align: center;
 }
 
+.login_page .ct_right .ct_right_ct .login_form {}
+
 .login_page .ct_right .ct_right_ct .login_form .list_group {
   width: 100%;
   position: relative;
@@ -2255,9 +2267,8 @@ top: 10px;
   padding: 0px 14px 0px 46px;
 }
 
-.login_page .ct_right .ct_right_ct .login_form .form_group>.list_group input {
-    width: 372px;
-    padding: 0px 0px 0px 46px;
+.login_page .ct_right .ct_right_ct .login_form .form_group>.list_group:nth-child(2) input {
+  padding: 0px 134px 0px 46px;
 }
 
 .login_page .ct_right .ct_right_ct .login_form .list_group input:focus {
@@ -2268,7 +2279,7 @@ top: 10px;
 .login_page .ct_right .ct_right_ct .login_form .list_group .feild_icon {
   position: absolute;
   left: 14px;
-  top: 60%;
+  top: 50%;
   margin: -13px 0px 0px 0px;
 }
 

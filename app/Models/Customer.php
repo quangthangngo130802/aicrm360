@@ -44,4 +44,9 @@ class Customer extends Model
     {
         return $this->belongsTo(CustomerCategory::class, 'customer_category_id');
     }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }

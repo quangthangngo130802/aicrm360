@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Appointment;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\User;
@@ -16,8 +17,37 @@ class DashboardController extends Controller
     public function dashboard()
     {
 
+        $user = Auth::user();
+        if ($user->is_admin == 0) {
+            $today = Carbon::today();
+            $tomorrow = Carbon::tomorrow();
+            $appointmentCount = Appointment::whereBetween('scheduled_at', [$today, $tomorrow])->count();
+
+            $startDate = Carbon::tomorrow();
+            $endDate = Carbon::now()->endOfWeek();
+
+            $appointmentNextCount = Appointment::whereBetween('scheduled_at', [$startDate, $endDate])->count();
+
+            $startOfWeek = Carbon::now()->startOfWeek();
+            $endOfWeek = Carbon::now()->endOfWeek();
+
+            $customerCount = Customer::whereHas('appointments', function ($query) use ($startOfWeek, $endOfWeek) {
+                $query->whereBetween('scheduled_at', [$startOfWeek, $endOfWeek]);
+            })->count();
+
+            $appointmentNext = Appointment::whereBetween('scheduled_at', [$startDate, $endDate])->limit(5)->get();  // lịch sắp diễn ra
+
+            $customerNow = Customer::whereHas('appointments', function ($query) use ($today, $tomorrow) {
+                $query->whereBetween('scheduled_at',  [$today, $tomorrow]);
+            })->get();
+
+            $customers = Customer::whereHas('appointments', function ($query) use ($today, $tomorrow) {
+                $query->whereBetween('scheduled_at', [$today, $tomorrow]);
+            })->get();
+
+            return view('backend.dashboardUser', compact('appointmentCount', 'appointmentNextCount', 'customerCount', 'appointmentNext',  'customerNow','customers'));
+        }
         $filter = 'today';
-        // dd($this->userCount($filter));
         return view('backend.dashboard', [
             'customerSummary' => $this->customerSummary($filter),
             'orderCount'      => $this->orderCount($filter),
