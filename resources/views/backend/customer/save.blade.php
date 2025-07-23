@@ -50,23 +50,19 @@
                                     </div>
 
                                     <div class="col-12">
-                                        <x-input name="area" id="area" label="Địa chỉ"
+                                        <x-input name="area" id="area" label="Địa chỉ"  required="true"
                                             value="{{ $customer->area ?? '' }}" />
                                     </div>
 
-                                    <div class="col-12">
-                                        <x-date name="birthday" id="birthday" label="Ngày sinh" :value="$customer && $customer->birthday
-                                            ? \Illuminate\Support\Carbon::parse($customer->birthday)->format('d-m-Y')
-                                            : ''" />
-                                    </div>
+
 
                                     <div class="col-12">
-                                        <x-select label="Giới tính" name="gender" :value="$customer->gender ?? ''" :options="['male' => 'Nam', 'female' => 'Nữ', 'other' => 'Khác']" />
+                                        <x-select label="Giới tính" name="gender" :value="$customer->gender ?? ''" :options="['male' => 'Nam', 'female' => 'Nữ', 'other' => 'Khác']"  required="true" />
                                     </div>
 
                                     <div class="col-12">
                                         <x-select label="Loại khách hàng" name="customer_category_id" :value="$customer->customer_category_id ?? ''"
-                                            :options="$customerCategory" />
+                                            :options="$customerCategory"   required="true"/>
                                     </div>
 
                                     <div class="col-12">
@@ -84,6 +80,13 @@
                             <div class="card-body">
                                 <h5 class="mb-3">Thông tin chi tiết</h5>
                                 <div class="row g-3">
+
+                                    <div class="col-12">
+                                        <x-date name="birthday" id="birthday" label="Ngày sinh" :value="$customer && $customer->birthday
+                                            ? \Illuminate\Support\Carbon::parse($customer->birthday)->format('d-m-Y')
+                                            : ''" />
+                                    </div>
+
                                     <div class="col-12">
                                         <x-input name="company_name" id="company_name" label="Tên công ty"
                                             value="{{ $customer->company_name ?? '' }}" />

@@ -6,11 +6,11 @@
         <x-breadcrumb :breadcrumbs="[['label' => 'Quản lý Lịch Hẹn']]" />
 
         <x-page-header title="Quản lý Lịch Hẹn">
-            @if (Auth::user()->is_admin == 1)
+            {{-- @if (Auth::user()->is_admin == 1) --}}
             <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAppointmentModal">
                 <i class="fas fa-plus me-1"></i> Tạo lịch hẹn mới
             </a>
-            @endif
+            {{-- @endif --}}
         </x-page-header>
 
         <!-- Filter Section -->
@@ -129,6 +129,8 @@
         </div>
 
     </div>
+
+
 @endsection
 
 @push('styles')
@@ -203,6 +205,38 @@
             fetchAppointments(); // Load lại bảng
             aicrm?.success("Tạo lịch hẹn thành công!");
         }, "/apppointment/save");
+
+        $(document).on("click", ".btn-edit-appointment", function() {
+            const id = $(this).data("id");
+            const modal = $("#updateAppointmentModal");
+
+            // Mở modal trước (có thể mở sớm để tránh lag UI)
+            modal.modal("show");
+
+            $.get(`/apppointment/${id}/edit-data`, function(data) {
+                // Choices.js xử lý gán select
+                const customerSelect = modal.find("select[name='customer_id']")[0];
+                const userSelect = modal.find("select[name='user_id']")[0];
+                const statusSelect = modal.find("select[name='status']")[0];
+
+                customerSelect?.choices?.setChoiceByValue(data.customer_id);
+                userSelect?.choices?.setChoiceByValue(data.user_id);
+                statusSelect?.choices?.setChoiceByValue(data.status?.toLowerCase());
+
+                // Gán ngày giờ
+                const formattedDate = data.scheduled_at.replace(" ", "T").slice(0, 16);
+                modal.find("input[name='scheduled_at']").val(formattedDate);
+
+                // Gán ghi chú
+                modal.find("textarea[name='note']").val(data.note);
+
+                // Gán action và method
+                const $form = $("#myFormUpdate");
+                $form.attr("action", `/apppointment/save/${id}`);
+                $form.find("input[name='_method']").remove();
+                $form.append('<input type="hidden" name="_method" value="PUT">');
+            });
+        });
     </script>
     <script>
         $(document).on('click', '.btn-delete-appointment', function() {

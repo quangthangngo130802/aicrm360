@@ -19,10 +19,11 @@
                 </a>
 
                 {{-- Sửa --}}
-                <a href="/apppointment/edit/{{ $appointment->id }}" class="btn btn-outline-warning btn-sm"
+                <a href="/apppointment/save/{{ $appointment->id }}" class="btn btn-outline-warning btn-sm btn-edit-appointment"
                     title="Chỉnh sửa lịch hẹn">
                     <i class="fas fa-edit"></i>
                 </a>
+
 
                 {{-- Xoá --}}
                 <button type="button" class="btn btn-outline-danger btn-sm btn-delete-appointment"

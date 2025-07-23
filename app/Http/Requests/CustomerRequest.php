@@ -26,6 +26,7 @@ class CustomerRequest extends FormRequest
             'area'               => ['required', 'string', 'max:255'],
             'birthday'           => ['nullable', 'date_format:d-m-Y', 'before:today'],
             'gender'             => ['required', 'in:male,female,other'],
+            'source_id'          => ['nullable'],
 
             'customer_category_id'           => ['required'],
             // Các trường khác cho phép null

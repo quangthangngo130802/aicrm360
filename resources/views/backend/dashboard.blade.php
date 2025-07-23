@@ -56,6 +56,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
+    <style>
+        .top-navbar-right .nav-item{
+            width: 45px !important;
+        }
+    </style>
 @endpush
 
 @push('scripts')

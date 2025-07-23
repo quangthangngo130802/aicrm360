@@ -18,7 +18,7 @@ class AppointmentController extends Controller
 
         $customers = Customer::pluck('name', 'id')->toArray();
 
-        if(Auth::user()->is_admin == 0) {
+        if (Auth::user()->is_admin == 0) {
             $customers = Customer::where('user_id', Auth::id())->pluck('name', 'id')->toArray();
         }
 
@@ -27,7 +27,8 @@ class AppointmentController extends Controller
 
         $query = Appointment::with(['customer', 'user'])->latest();
 
-        if(Auth::user()->is_admin == 0) {
+        if (Auth::user()->is_admin == 0) {
+
             $query->where('user_id', Auth::id());
         }
 
@@ -64,11 +65,37 @@ class AppointmentController extends Controller
 
         return view('backend.appointment.index', compact('appointments', 'customers', 'users'));
     }
+    public function save(?string $id = null)
+    {
+        $customers = Customer::pluck('name', 'id')->toArray();
 
+        if (Auth::user()->is_admin == 0) {
+            $customers = Customer::where('user_id', Auth::id())->pluck('name', 'id')->toArray();
+        }
+
+
+        $users = User::where('is_admin', 0)->pluck('name', 'id')->toArray();
+        if (!empty($id)) {
+            $appointment   = Appointment::findOrFail($id);
+
+            $title      = "Chỉnh sửa lịch hẹn";
+        }
+
+        return view('backend.appointment.save', compact('title', 'appointment', 'customers', 'users'));
+    }
 
     public function update(AppointmentRequest $request, $id)
     {
-        dd($request->all());
+        return transaction(function () use ($request, $id) {
+            $appointment = Appointment::findOrFail($id);
+
+            $data = $request->validated();
+
+
+            $appointment->update($data);
+
+            return successResponse("Cập nhật đơn hàng thành công", ['redirect' => '/apppointment']);
+        });
     }
 
     public function store(AppointmentRequest $request)
@@ -81,18 +108,19 @@ class AppointmentController extends Controller
 
             return successResponse("Tạo lịch hẹn thành công", ['redirect' => '/apppointment']);
         });
-
     }
 
-    public function view($id){
+    public function view($id)
+    {
         $appointment = Appointment::with(['customer', 'user'])->find($id);
-        if(!$appointment){
+        if (!$appointment) {
             abort(404);
         }
         return view('backend.appointment.view', compact('appointment'));
     }
 
-    public function updateStatus(Request $request){
+    public function updateStatus(Request $request)
+    {
         $request->validate([
             'id' => 'required|exists:appointments,id',
             'status' => 'required|in:pending,completed,cancelled'
@@ -107,7 +135,8 @@ class AppointmentController extends Controller
         return successResponse("Cập nhật trạng thái thành công", ['redirect' => '/apppointment']);
     }
 
-    public function delete(Request $request){
+    public function delete(Request $request)
+    {
         // dd($request->all());
         $appointment = Appointment::find($request->id);
         if (!$appointment) {
@@ -117,5 +146,12 @@ class AppointmentController extends Controller
         $appointment->delete();
 
         return successResponse("Xóa lịch hẹn thành công", ['redirect' => '/apppointment']);
+    }
+
+    public function editData($id)
+    {
+        $appointment = Appointment::with(['customer', 'user'])->findOrFail($id);
+
+        return response()->json($appointment);
     }
 }

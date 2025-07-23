@@ -62,8 +62,6 @@ Route::middleware('admin.auth')->group(function () {
             Route::post('save', 'store');
             Route::put('save/{id}', 'update');
         });
-
-
     });
 
     Route::group(['prefix' => 'orders', 'controller' => OrderController::class], function () {
@@ -95,11 +93,13 @@ Route::middleware('admin.auth')->group(function () {
 
     Route::group(['prefix' => 'apppointment', 'controller' => AppointmentController::class], function () {
         Route::get('/', 'index');
+        Route::get('save/{id?}', 'save');
         Route::put('save/{id}', 'update');
         Route::post('save', 'store');
         Route::get('/view/{id}', 'view');
-        Route::post('/update-status','updateStatus');
-        Route::post('/delete','delete');
+        Route::post('/update-status', 'updateStatus');
+        Route::post('/delete', 'delete');
+        Route::get('/{id}/edit-data','editData');
     });
 });
 
