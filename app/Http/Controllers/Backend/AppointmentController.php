@@ -24,7 +24,7 @@ class AppointmentController extends Controller
 
         $users = User::where('is_admin', 0)->pluck('name', 'id')->toArray();
         if (Auth::user()->is_admin == 0) {
-            $users = User::where('user_id', Auth::id())->pluck('name', 'id')->toArray();
+            $users = User::where('id', Auth::id())->pluck('name', 'id')->toArray();
         }
 
 
