@@ -23,10 +23,13 @@
     <link rel="stylesheet" href="{{ asset('global/css/toastr.css') }}">
 </head>
 <style type="text/css">
-    body.form_page {
-        overflow: hidden;
-        height: 100vh;
+    body.no-scroll {
         margin: 0;
+        height: 125vh;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     #toast-container>div {
