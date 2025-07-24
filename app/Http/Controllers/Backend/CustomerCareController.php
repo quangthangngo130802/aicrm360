@@ -19,12 +19,12 @@ class CustomerCareController extends Controller
         $customers = Customer::get();
         $results = Result::get();
         if (Auth::user()->is_admin == 0) {
-            $customers = Customer::where('user_id', Auth::id())->toArray();
+            $customers = Customer::where('user_id', Auth::id())->get();
         }
 
         $users = User::where('is_admin', 0)->get();
         if (Auth::user()->is_admin == 0) {
-            $users = User::where('id', Auth::id())->get();
+            $users = User::where('is_admin', 0)->where('id', Auth::id())->get();
         }
 
         // Subquery lấy ID lịch chăm sóc mới nhất theo mỗi khách hàng
