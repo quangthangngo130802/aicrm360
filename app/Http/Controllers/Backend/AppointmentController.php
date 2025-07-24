@@ -15,7 +15,7 @@ class AppointmentController extends Controller
     //
     public function index(Request $request)
     {
-
+        $title = 'Quản lý lịch hẹn';
         $customers = Customer::pluck('name', 'id')->toArray();
 
         if (Auth::user()->is_admin == 0) {
@@ -66,10 +66,11 @@ class AppointmentController extends Controller
             ]);
         }
 
-        return view('backend.appointment.index', compact('appointments', 'customers', 'users'));
+        return view('backend.appointment.index', compact('appointments', 'customers', 'users', 'title'));
     }
     public function save(?string $id = null)
     {
+
         $customers = Customer::pluck('name', 'id')->toArray();
 
         if (Auth::user()->is_admin == 0) {

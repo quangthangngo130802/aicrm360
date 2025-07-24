@@ -54,8 +54,8 @@ class OrderController extends Controller
                 ['status', 'username', 'customer', 'operations']
             );
         }
-
-        return view('backend.order.index', ['isAdmin' => Auth::user()->is_admin]);
+        $title = 'Quản lý đơn hàng';
+        return view('backend.order.index', ['isAdmin' => Auth::user()->is_admin, 'title' => $title]);
     }
 
 

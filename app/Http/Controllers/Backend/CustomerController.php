@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerRequest;
 use App\Models\Customer;
 use App\Models\CustomerCategory;
+use App\Models\Source;
 use App\Traits\DataTables;
 use App\Traits\QueryBuilder;
 use Carbon\Carbon;
@@ -21,6 +22,7 @@ class CustomerController extends Controller
 
     public function index(Request $request)
     {
+        $title = 'Danh sách khách hàng';
         if ($request->ajax()) {
             $user = Auth::user();
 
@@ -44,7 +46,7 @@ class CustomerController extends Controller
             );
         }
 
-        return view('backend.customer.index', ['isAdmin' => Auth::user()->is_admin]);
+        return view('backend.customer.index', ['isAdmin' => Auth::user()->is_admin, 'title' => $title]);
     }
 
     public function save(?string $id = null)
@@ -54,13 +56,14 @@ class CustomerController extends Controller
         $customer       = null;
 
         $customerCategory = CustomerCategory::pluck('name', 'id')->toArray();
+        $sources = Source::pluck('name', 'id')->toArray();
         if (!empty($id)) {
             $customer   = Customer::findOrFail($id);
 
             $title      = "Chỉnh sửa khách hàng - {$customer->name}";
         }
 
-        return view('backend.customer.save', compact('title', 'customer', 'customerCategory'));
+        return view('backend.customer.save', compact('title', 'customer', 'customerCategory', 'sources'));
     }
 
     public function store(CustomerRequest $request)

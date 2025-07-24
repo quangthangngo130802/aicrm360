@@ -74,8 +74,9 @@ class CustomerCareController extends Controller
                 'pagination' => view('backend.customer_care.partials.pagination', compact('customer_cares'))->render()
             ]);
         }
+        $title = 'Danh sách nhật ký chăm sóc khách hàng';
 
-        return view('backend.customer_care.index', compact('customer_cares', 'customers', 'users', 'results'));
+        return view('backend.customer_care.index', compact('customer_cares', 'customers', 'users', 'results', 'title'));
     }
 
 

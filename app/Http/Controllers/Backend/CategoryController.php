@@ -32,8 +32,8 @@ class CategoryController extends Controller
             count( $result),
             1
         );
-
-        return view('backend.config.category', compact('sources', 'maxRows', 'customerCategory', 'channel', 'result'));
+        $title = 'Danh mục hệ thống';
+        return view('backend.config.category', compact('sources', 'maxRows', 'customerCategory', 'channel', 'result', 'title'));
     }
 
     public function updateOrCreate(Request $request)

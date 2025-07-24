@@ -10,7 +10,8 @@ class SettingController extends Controller
 {
     public function index()
     {
-        return view('backend.config.general-configuration');
+        $title = 'Cấu hình chung';
+        return view('backend.config.general-configuration', compact('title'));
     }
 
     public function save(Request $request)

@@ -66,6 +66,11 @@
                                     </div>
 
                                     <div class="col-12">
+                                        <x-select label="Nguồn khách hàng" name="source_id" :value="$customer->source_id ?? ''"
+                                            :options="$sources" />
+                                    </div>
+
+                                    <div class="col-12">
                                         <x-input name="demand" id="demand" label="Nhu cầu"
                                             value="{{ $customer->demand ?? '' }}" />
                                     </div>

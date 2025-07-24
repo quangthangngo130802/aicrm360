@@ -36,14 +36,14 @@
                             </div>
 
                             <div class="col-md-6">
-                                <x-input type="email" name="email" id="email" label="Email" required="true"
+                                <x-input type="email" name="email" id="email" label="Email" required="true" p
                                     value="{{ $employee->email ?? '' }}" />
                             </div>
 
                             <div class="col-md-6">
                                 <x-input type="password" required="true" name="password" id="password"
                                     label="Mật khẩu {{ $employee ? 'mới (bỏ qua nếu không đổi)' : '' }}"
-                                    placeholder="Mật khẩu" />
+                                    placeholder="Ví dụ : aicrm360@Test" />
                             </div>
 
                             <div class="col-md-6">

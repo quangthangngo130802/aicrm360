@@ -10,7 +10,7 @@
 
     @include('backend.includes.style')
 
-    <title>Fobia - Bootstrap5 Admin Template</title>
+    <title>{{ $title ? $title : ' CRM360 - Quản lý khách hàng thông minh chuyên nghiệp' }}</title>
 </head>
 
 <body>

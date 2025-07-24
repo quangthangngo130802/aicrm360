@@ -28,6 +28,7 @@ class EmployeeController extends Controller
 
     public function index(Request $request)
     {
+        $title = 'Danh sách nhân viên';
         if ($request->ajax()) {
             $query = $this->queryBuilder(
                 model: new User,
@@ -47,7 +48,7 @@ class EmployeeController extends Controller
             );
         }
 
-        return view('backend.employee.index');
+        return view('backend.employee.index', compact('title'));
     }
 
 

@@ -17,7 +17,7 @@ class DashboardController extends Controller
 {
     public function dashboard()
     {
-
+        $title = ' CRM360 - Quản lý khách hàng thông minh chuyên nghiệp';
         $user = Auth::user();
         $isStaff = $user->is_admin == 0;
 
@@ -75,7 +75,7 @@ class DashboardController extends Controller
             'appointmentNext',
             'customerNow',
             'customers',
-            'customerCareCount'
+            'customerCareCount','title'
         ));
 
         // $filter = 'today';
