@@ -186,9 +186,9 @@
             });
         }
 
-        // Gọi lại khi thay đổi filter
-        $('#search-customer, #search-status, #search-date, #search-general').on('input change', function() {
-            fetchAppointments(); // Mặc định gọi trang đầu
+
+        $('#search-customer, #search-status, #search-date, #search-general').on('change', function() {
+            fetchAppointments();
         });
 
         // Gọi lại khi phân trang
@@ -202,7 +202,7 @@
 
         submitForm("#myForm", function(response) {
             $("#createAppointmentModal").modal("hide");
-            fetchAppointments(); // Load lại bảng
+            fetchAppointments(); 
             aicrm?.success("Tạo lịch hẹn thành công!");
         }, "/apppointment/save");
 

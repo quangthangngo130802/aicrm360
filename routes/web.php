@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\BulkActionController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ContractController;
 use App\Http\Controllers\Backend\ContractTypeController;
+use App\Http\Controllers\Backend\CustomerCareController;
 use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\EmployeeController;
@@ -92,6 +93,17 @@ Route::middleware('admin.auth')->group(function () {
     });
 
     Route::group(['prefix' => 'apppointment', 'controller' => AppointmentController::class], function () {
+        Route::get('/', 'index');
+        Route::get('save/{id?}', 'save');
+        Route::put('save/{id}', 'update');
+        Route::post('save', 'store');
+        Route::get('/view/{id}', 'view');
+        Route::post('/update-status', 'updateStatus');
+        Route::post('/delete', 'delete');
+        Route::get('/{id}/edit-data','editData');
+    });
+
+    Route::group(['prefix' => 'customer_care', 'controller' => CustomerCareController::class], function () {
         Route::get('/', 'index');
         Route::get('save/{id?}', 'save');
         Route::put('save/{id}', 'update');

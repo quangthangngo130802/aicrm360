@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Channel;
 use App\Models\ContractType;
 use App\Models\CustomerCategory;
 use App\Models\Department;
 use App\Models\EducationLevel;
 use App\Models\EmploymentStatus;
 use App\Models\Position;
+use App\Models\Result;
 use App\Models\Source;
 use Illuminate\Http\Request;
 
@@ -20,21 +22,25 @@ class CategoryController extends Controller
     {
         $sources = Source::pluck('name')->toArray();
         $customerCategory = CustomerCategory::pluck('name')->toArray();
+        $channel = Channel::pluck('name')->toArray();
+        $result  = Result::pluck('name')->toArray();
 
         $maxRows = max(
             count($sources),
             count( $customerCategory),
+            count( $channel),
+            count( $result),
             1
         );
 
-        return view('backend.config.category', compact('sources', 'maxRows', 'customerCategory'));
+        return view('backend.config.category', compact('sources', 'maxRows', 'customerCategory', 'channel', 'result'));
     }
 
     public function updateOrCreate(Request $request)
     {
 
         $request->validate([
-            'table' => 'required|in:sources,customer_categories',
+            'table' => 'required|in:sources,customer_categories,channels,results',
             'name' => 'required|string|max:255',
             'original_name' => 'nullable|string'
         ]);
@@ -82,7 +88,7 @@ class CategoryController extends Controller
     public function destroy(Request $request)
     {
         $request->validate([
-            'table' => 'required|in:sources,customer_categories',
+            'table' => 'required|in:sources,customer_categories,channels,results',
             'name' => 'required|string|max:255',
         ]);
 
@@ -105,6 +111,8 @@ class CategoryController extends Controller
         return [
             'sources' => Source::class,
             'customer_categories' => CustomerCategory::class,
+            'channels'  => Channel::class,
+            'results'  => Result::class,
         ];
     }
 }

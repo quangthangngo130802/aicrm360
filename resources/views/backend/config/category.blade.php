@@ -16,6 +16,8 @@
                     <tr>
                         <th>Nguồn khách hàng</th>
                         <th>Phân loại khách hàng</th>
+                        <th>Kênh</th>
+                        <th>Kết quả</th>
                     </tr>
                 </thead>
 
@@ -31,6 +33,15 @@
                             <td>
                                 <input type="text" class="form-control" data-table="customer_categories"
                                     value="{{ $customerCategory[$i] ?? '' }}" data-original="{{ $customerCategory[$i] ?? '' }}">
+                            </td>
+
+                            <td>
+                                <input type="text" class="form-control" data-table="channels"
+                                    value="{{ $channel[$i] ?? '' }}" data-original="{{ $channel[$i] ?? '' }}">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" data-table="results"
+                                    value="{{ $result[$i] ?? '' }}" data-original="{{ $result[$i] ?? '' }}">
                             </td>
 
                         </tr>
