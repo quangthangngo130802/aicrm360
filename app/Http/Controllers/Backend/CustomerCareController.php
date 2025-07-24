@@ -86,12 +86,14 @@ class CustomerCareController extends Controller
         $results = Result::pluck('name', 'id')->toArray();
         $channels = Channel::pluck('name', 'id')->toArray();
         $customerCare = null;
+        $users = User::where('is_admin', 0)->pluck('name', 'id')->toArray();
         if (Auth::user()->is_admin == 0) {
             $customers = Customer::where('user_id', Auth::id())->pluck('name', 'id')->toArray();
+            $users = User::where('id', Auth::id())->pluck('name', 'id')->toArray();
         }
 
 
-        $users = User::where('is_admin', 0)->pluck('name', 'id')->toArray();
+
         if (!empty($id)) {
             $customerCare   = CustomerCare::findOrFail($id);
             $title      = "Chỉnh sửa nhật ký";
