@@ -140,7 +140,8 @@ class CustomerCareController extends Controller
         $customerCares = CustomerCare::where('customer_id', $customerCare->customer_id)
             ->orderBy('care_date', 'desc')
             ->get();
-        return view('backend.customer_care.view', compact('customerCare', 'results', 'customerCares'));
+            $title = 'Thông tin nhật ký khách '.$customerCare->customer->name;
+        return view('backend.customer_care.view', compact('customerCare', 'results', 'customerCares', 'title'));
     }
 
     // public function updateStatus(Request $request)
