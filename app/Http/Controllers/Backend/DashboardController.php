@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\Customer;
+use App\Models\CustomerCare;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -25,6 +26,11 @@ class DashboardController extends Controller
             $endDate = Carbon::now()->endOfWeek();
             $startOfWeek = Carbon::now()->startOfWeek();
             $endOfWeek = Carbon::now()->endOfWeek();
+
+            //KH chăm sóc hôm nay
+            $customerCareCount = CustomerCare::whereBetween('care_date', [$today, $tomorrow])
+            ->where('user_id', $user->id)
+            ->count();
 
             // Đếm lịch hôm nay của chính user
             $appointmentCount = Appointment::whereBetween('scheduled_at', [$today, $tomorrow])
@@ -61,7 +67,7 @@ class DashboardController extends Controller
                 ->where('user_id', $user->id);;
             })->get();
 
-            return view('backend.dashboardUser', compact('appointmentCount', 'appointmentNextCount', 'customerCount', 'appointmentNext',  'customerNow', 'customers'));
+            return view('backend.dashboardUser', compact('appointmentCount', 'appointmentNextCount', 'customerCount', 'appointmentNext',  'customerNow', 'customers', 'customerCareCount'));
         }
         $filter = 'today';
         return view('backend.dashboard', [

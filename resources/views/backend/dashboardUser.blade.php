@@ -8,7 +8,7 @@
             <div class="col-md-3">
                 <div class="card p-3 bg-success text-white">
                     <h6>KH chăm sóc hôm nay</h6>
-                    <h2>0</h2>
+                    <h2>{{ $customerCareCount }}</h2>
                 </div>
             </div>
             <div class="col-md-3">
