@@ -161,7 +161,7 @@
     }
 </style>
 
-<body class="form_page">
+<body class="form_page no-scroll">
     <div id="qb_content_navi_2021">
         <div class="login_display_02 login_page">
             <div class="ct_left">
