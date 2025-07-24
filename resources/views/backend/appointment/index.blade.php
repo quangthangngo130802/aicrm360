@@ -47,7 +47,9 @@
                         <th>STT</th>
                         <th>Khách hàng</th>
                         <th>Ghi chú</th>
+                        @if (Auth::user()->is_admin == 1)
                         <th>Nhân viên</th>
+                        @endif
                         <th>Thời gian hẹn</th>
                         <th>Trạng thái</th>
                         <th></th>
@@ -202,7 +204,7 @@
 
         submitForm("#myForm", function(response) {
             $("#createAppointmentModal").modal("hide");
-            fetchAppointments(); 
+            fetchAppointments();
             aicrm?.success("Tạo lịch hẹn thành công!");
         }, "/apppointment/save");
 

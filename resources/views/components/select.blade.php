@@ -9,12 +9,24 @@
         <option value="">-- Chọn {{ strtolower($placeholder ?? $label) }} --</option>
     @endunless
     @foreach ($options as $key => $text)
-        <option value="{{ $key }}"
-            @if ($multiple && is_array($value) && in_array($key, $value)) selected
-            @elseif (!$multiple && $value == $key) selected @endif>
+        @php
+            $shouldSelect = false;
+
+            if ($multiple && is_array($value) && in_array($key, $value)) {
+                $shouldSelect = true;
+            } elseif (!$multiple && $value == $key) {
+                $shouldSelect = true;
+            } elseif (count($options) === 1 && empty($value) && Auth::check() && Auth::user()->is_admin == 0) {
+                $shouldSelect = true;
+            }
+        @endphp
+
+        <option value="{{ $key }}" {{ $shouldSelect ? 'selected' : '' }}>
             {{ $text }}
         </option>
     @endforeach
+
+
 </select>
 
 <small class="text-danger error-message {{ $name }}"></small>

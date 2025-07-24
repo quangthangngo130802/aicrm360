@@ -3,7 +3,9 @@
         <td>{{ ($appointments->currentPage() - 1) * $appointments->perPage() + $index + 1 }}</td>
         <td>{{ $appointment->customer->name ?? '-' }}</td>
         <td>{{ $appointment->note }}</td>
-        <td>{{ $appointment->user->name ?? '-' }}</td>
+        @if (Auth::user()->is_admin == 1)
+            <td>{{ $appointment->user->name ?? '-' }}</td>
+        @endif
         <td>{{ \Carbon\Carbon::parse($appointment->scheduled_at)->format('d/m/Y - H:i') }}</td>
         <td>
             <span class="badge {{ $appointment->status_badge_class }}">
@@ -19,8 +21,8 @@
                 </a>
 
                 {{-- Sửa --}}
-                <a href="/apppointment/save/{{ $appointment->id }}" class="btn btn-outline-warning btn-sm btn-edit-appointment"
-                    title="Chỉnh sửa lịch hẹn">
+                <a href="/apppointment/save/{{ $appointment->id }}"
+                    class="btn btn-outline-warning btn-sm btn-edit-appointment" title="Chỉnh sửa lịch hẹn">
                     <i class="fas fa-edit"></i>
                 </a>
 

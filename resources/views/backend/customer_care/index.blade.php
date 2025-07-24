@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-md-3">
                         <select class="form-select" id="search-status">
-                            <option value="">Kết quả</option>
+                            <option value="">Trạng thái</option>
                             @foreach ($results as $item )
                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                             @endforeach
@@ -51,11 +51,13 @@
                     <tr>
                         <th>STT</th>
                         <th>Khách hàng</th>
+                        @if (Auth::user()->is_admin == 1)
                         <th>Nhân viên</th>
+                        @endif
                         <th>Kênh</th>
                         <th>Ngày chăm sóc gần nhất</th>
                         <th>Chi tiết</th>
-                        <th>Kết quả</th>
+                        <th>Trạng thái</th>
                         <th class="text-center">Thao tác</th>
                     </tr>
                 </thead>

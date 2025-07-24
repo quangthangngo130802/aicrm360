@@ -25,10 +25,10 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="row g-3">
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <x-input name="code" id="code" label="Mã đơn hàng"
                                     value="{{ $order->code ?? '' }}" />
-                            </div>
+                            </div> --}}
 
                             <div class="col-md-6">
                                 <x-select label="Khách hàng" name="customer_id" :value="$order->customer_id ?? ''" :options="$customers" />

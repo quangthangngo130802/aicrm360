@@ -29,10 +29,10 @@
                             <div class="card-body">
                                 <h5 class="mb-3">Thông tin khách hàng</h5>
                                 <div class="row g-3">
-                                    <div class="col-12">
+                                    {{-- <div class="col-12">
                                         <x-input name="code" id="code" label="Mã khách hàng"
                                             value="{{ $customer->code ?? '' }}" />
-                                    </div>
+                                    </div> --}}
 
                                     <div class="col-12">
                                         <x-input name="name" id="name" label="Họ tên" required="true"

@@ -2,7 +2,9 @@
     <tr>
         <td>{{ ($customer_cares->currentPage() - 1) * $customer_cares->perPage() + $index + 1 }}</td>
         <td>{{ $customer_care->customer->name ?? '-' }}</td>
-        <td>{{ $customer_care->user->name ?? '-' }}</td>
+        @if (Auth::user()->is_admin == 1)
+            <td>{{ $customer_care->user->name ?? '-' }}</td>
+        @endif
         <td>
             {{ $customer_care->channel->name ?? '-' }}
         </td>
@@ -21,10 +23,10 @@
                     <i class="fas fa-eye"></i>
                 </a>
 
-                <a href="/customer_care/save/{{ $customer_care->id }}" class="btn btn-outline-warning btn-sm btn-edit-appointment"
-                    title="Chỉnh sửa lịch hẹn">
+                {{-- <a href="/customer_care/save/{{ $customer_care->id }}"
+                    class="btn btn-outline-warning btn-sm btn-edit-appointment" title="Chỉnh sửa lịch hẹn">
                     <i class="fas fa-edit"></i>
-                </a>
+                </a> --}}
 
                 <button type="button" class="btn btn-outline-danger btn-sm btn-delete-appointment"
                     data-id="{{ $customer_care->id }}" title="Xoá lịch hẹn">

@@ -25,10 +25,10 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="row g-3">
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <x-input name="code" id="code" label="Mã nhân viên"
                                     value="{{ $employee->code ?? '' }}" />
-                            </div>
+                            </div> --}}
 
                             <div class="col-md-6">
                                 <x-input name="name" id="name" label="Họ tên" required="true"

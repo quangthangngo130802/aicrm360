@@ -33,7 +33,7 @@ class Appointment extends Model
     public function getStatusLabelAttribute()
     {
         return match ($this->status) {
-            'pending'   => 'Đang chờ',
+            'pending'   => 'Đã lên lịch',
             'completed' => 'Đã hoàn thành',
             'cancelled' => 'Đã huỷ',
             default     => 'Không xác định',
