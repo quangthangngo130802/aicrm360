@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="">
-        <h3 class="mb-4">📋 Dashboard</h3>
+        <h3 class="mb-4"> Tổng quan</h3>
 
         <div class="row g-4 mb-4">
             <div class="col-md-3">
@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="card p-3 bg-warning text-dark">
+                <div class="card p-3 bg-warning text-white">
                     <h6>Lịch hẹn sắp diễn ra</h6>
                     <h2>{{ $appointmentNextCount }}</h2>
                 </div>
@@ -74,7 +74,9 @@
                         <li class="list-group-item {{ $loop->first ? 'highlight' : '' }}">
                             <strong>{{ \Carbon\Carbon::parse($appointment->scheduled_at)->format('H:i d/m') }}:</strong>
                             Gọi lại {{ $appointment->customer->name ?? '---' }}
-                            ({{ $appointment->customer->company_name ?? 'Không rõ công ty' }})
+                            @if (!empty($appointment->customer->company_name))
+                                ({{ $appointment->customer->company_name }})
+                            @endif
                             –
                             {{ $appointment->note }}
                         </li>

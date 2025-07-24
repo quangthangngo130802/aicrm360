@@ -11,7 +11,7 @@
                     class="text-primary">{{ $customerCare->customer->name }}</span></h4>
 
             <!-- Bộ lọc -->
-            <div class="row g-3 align-items-end mb-5 filter-section">
+            {{-- <div class="row g-3 align-items-end mb-5 filter-section">
                 <div class="col-md-4">
                     <label class="form-label">Từ ngày</label>
                     <input type="date" class="form-control rounded-3" />
@@ -29,7 +29,7 @@
                         @endforeach
                     </select>
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Timeline -->
             <div class="timeline-container">
