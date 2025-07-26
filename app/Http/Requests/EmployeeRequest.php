@@ -28,7 +28,7 @@ class EmployeeRequest extends FormRequest
             'code' => ['nullable', 'string', 'max:50', "unique:users,code,{$id}"],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'string', 'max:255'],
-            'password' => [$id ? 'nullable' : 'required', 'string', 'max:255', 'min:8', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/'],
+            'password' => [$id ? 'nullable' : 'required', 'string', 'max:255', 'min:8', 'regex:/^(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}$/'],
             'phone' => ['nullable', 'string', 'regex:/^0\d{9}$/', "unique:users,phone,{$id}"],
             'address' => ['nullable', 'string', 'max:255'],
             'birthday' => ['nullable', 'date_format:d-m-Y', 'before:today'],
@@ -54,5 +54,4 @@ class EmployeeRequest extends FormRequest
             'gender' => 'Giới tính',
         ];
     }
-
 }
