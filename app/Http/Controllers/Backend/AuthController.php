@@ -77,7 +77,7 @@ class AuthController extends Controller
 
             User::create($credentials);
 
-            return successResponse("Đăng ký thành công", ['redirect' => '/employees']);
+            return successResponse("Đăng ký thành công", ['redirect' => '/']);
         });
     }
 
