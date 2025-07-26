@@ -73,6 +73,7 @@ class AuthController extends Controller
             $credentials = $request->validated();
             $credentials['code'] ??= $this->generateEmployeeCode();
             $credentials['password'] = bcrypt($credentials['password']);
+            $credentials['is_admin'] = 1;
 
             User::create($credentials);
 
