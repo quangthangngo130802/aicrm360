@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('admin.auth')->group(function () {
+Route::middleware(['admin.auth', 'subdomain'])->group(function () {
 
     Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/dashboard/filter', [DashboardController::class, 'filterDashboard'])->name('dashboard.filter');
@@ -120,3 +120,6 @@ Route::middleware('admin.guest')->group(function () {
     Route::get('login', [AuthController::class, 'login'])->name('login');
     Route::post('login', [AuthController::class, 'authenticate']);
 });
+
+Route::get('dang-ky', [AuthController::class, 'registerFrom']);
+Route::post('dang-ky', [AuthController::class, 'register']);

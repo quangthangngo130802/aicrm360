@@ -36,6 +36,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            // \App\Http\Middleware\CheckSubdomain::class,
         ],
 
         'api' => [
@@ -67,5 +68,6 @@ class Kernel extends HttpKernel
         'admin.guest' => \App\Http\Middleware\AdminRedirectIfAuthenticated::class,
         'admin' => \App\Http\Middleware\CheckAdmin::class,
         'restrict.admin.write' => \App\Http\Middleware\RestrictAdminWriteActions::class,
+        'subdomain' => \App\Http\Middleware\CheckSubdomain::class,
     ];
 }

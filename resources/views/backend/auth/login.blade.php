@@ -272,6 +272,13 @@
                                         class="loginButton loginButtonGg remove-msg before-login disabled_button"
                                         id="submitBtn">Đăng nhập</button>
                                 </div>
+
+
+                                <div class="text-center mt-3">
+                                    <span>Bạn chưa có tài khoản?</span>
+                                    <a href="http://aicrm360.vn/dang-ky" class="text-decoration-none fw-bold"
+                                        style="color:#006eff;">Đăng ký ngay</a>
+                                </div>
                             </div>
 
                         </form>
