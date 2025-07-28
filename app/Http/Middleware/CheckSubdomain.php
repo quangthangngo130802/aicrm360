@@ -16,30 +16,28 @@ class CheckSubdomain
      */
     public function handle(Request $request, Closure $next)
     {
-        $host = $request->getHost(); // ví dụ: sgovn.crm360.dev hoặc crm360.dev
+        $host = $request->getHost(); // ví dụ: thangngo13080211.crm360.dev
         $parts = explode('.', $host);
 
-        // Nếu KHÔNG có subdomain (chỉ có crm360.dev)
+        // Nếu KHÔNG có subdomain (ví dụ: crm360.dev) → cho qua luôn
         if (count($parts) < 3) {
-            // Cho qua luôn → để vào trang đăng ký
             return $next($request);
         }
 
-        // Có subdomain → kiểm tra trong bảng users
-        $subdomain = implode('.', array_slice($parts, 0, -2)); // ví dụ: sgovn
+        // Có subdomain → kiểm tra tồn tại
+        $subdomain = implode('.', array_slice($parts, 0, -2)); // thangngo13080211
 
         $exists = DB::table('users')->where('subdomain', $subdomain)->exists();
 
         if (!$exists) {
-            // Nếu không có subdomain hợp lệ → trả về 404 hoặc trang lỗi
             return response()->view('errors.doamin', [], 404);
         }
 
-        // Nếu có subdomain hợp lệ → Gán vào request và ép redirect về /login nếu đang ở /
+        // Gán subdomain vào request để controller có thể dùng
         $request->attributes->set('subdomain', $subdomain);
 
-        // Nếu đang truy cập "/" → chuyển hướng tới trang đăng nhập
-        if ($request->path() == '/') {
+        // Nếu đang ở "/" thì redirect sang "/login"
+        if ($request->path() === '/') {
             return redirect('/login');
         }
 
