@@ -48,7 +48,7 @@ class CustomerRequest extends FormRequest
     public function withValidator($validator)
     {
         $id = $this->route('id');
-        Log::info(1);
+
         $userId = $this->input('user_id') ?? auth()->id();
         $subdomain = User::where('id', $userId)->value('subdomain');
 
@@ -57,6 +57,7 @@ class CustomerRequest extends FormRequest
         $phone = $this->input('phone');
         $email = $this->input('email');
 
+        Log::info($phone);
 
         if ($phone) {
             $exists = Customer::where('phone', $phone)
