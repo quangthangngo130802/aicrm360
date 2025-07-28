@@ -47,41 +47,43 @@ class CustomerRequest extends FormRequest
     }
     public function withValidator($validator)
     {
-        $id = $this->route('id');
+        $validator->after(function ($validator) {
+            $id = $this->route('id');
 
-        $userId = $this->input('user_id') ?? auth()->id();
-        $subdomain = User::where('id', $userId)->value('subdomain');
+            $userId = $this->input('user_id') ?? auth()->id();
+            $subdomain = User::where('id', $userId)->value('subdomain');
 
-        if (!$subdomain) return;
+            if (!$subdomain) return;
 
-        $phone = $this->input('phone');
-        $email = $this->input('email');
+            $phone = $this->input('phone');
+            $email = $this->input('email');
 
+            if ($phone) {
+                $exists = Customer::where('phone', $phone)
+                    ->whereHas('user', fn ($q) => $q->where('subdomain', $subdomain))
+                    ->when($id, fn ($q) => $q->where('id', '<>', $id))
+                    ->exists();
 
-
-        if ($phone) {
-            $exists = Customer::where('phone', $phone)
-                ->whereHas('user', fn ($q) => $q->where('subdomain', $subdomain))
-                ->when($id, fn ($q) => $q->where('id', '<>', $id))
-                ->exists();
-
-            if ($exists) {
-                Log::info('sdt tồn tại');
-                $validator->errors()->add('phone', 'Số điện thoại đã tồn tại trong này.');
+                if ($exists) {
+                    Log::info('Số điện thoại đã tồn tại');
+                    $validator->errors()->add('phone', 'Số điện thoại đã tồn tại trong subdomain này.');
+                }
             }
-        }
 
-        if ($email) {
-            $exists = Customer::where('email', $email)
-                ->whereHas('user', fn ($q) => $q->where('subdomain', $subdomain))
-                ->when($id, fn ($q) => $q->where('id', '<>', $id))
-                ->exists();
+            if ($email) {
+                $exists = Customer::where('email', $email)
+                    ->whereHas('user', fn ($q) => $q->where('subdomain', $subdomain))
+                    ->when($id, fn ($q) => $q->where('id', '<>', $id))
+                    ->exists();
 
-            if ($exists) {
-                $validator->errors()->add('email', 'Email đã tồn tại trong này.');
+                if ($exists) {
+                    Log::info('Email đã tồn tại');
+                    $validator->errors()->add('email', 'Email đã tồn tại trong subdomain này.');
+                }
             }
-        }
+        });
     }
+
 
     public function messages()
     {
