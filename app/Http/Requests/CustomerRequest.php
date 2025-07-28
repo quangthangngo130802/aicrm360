@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class CustomerRequest extends FormRequest
 {
@@ -47,6 +48,7 @@ class CustomerRequest extends FormRequest
     public function withValidator($validator)
     {
         $id = $this->route('id');
+        Log::info(1);
         $userId = $this->input('user_id') ?? auth()->id();
         $subdomain = User::where('id', $userId)->value('subdomain');
 
