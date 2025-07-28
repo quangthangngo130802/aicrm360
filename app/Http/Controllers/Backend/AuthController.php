@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 
@@ -77,6 +79,17 @@ class AuthController extends Controller
             $credentials['is_admin'] = 1;
 
             User::create($credentials);
+
+
+            try {
+                Http::post('https://id.sgodata.com/api/register-crm', [
+                    'name'     =>  $credentials['name'],
+                    'email'    =>  $credentials['email'],
+                    'subdomain' =>  $credentials['subdomain'],
+                ]);
+            } catch (\Exception $e) {
+                Log::error('Không gửi được API sang Web B: ' . $e->getMessage());
+            }
 
             return successResponse("Đăng ký thành công", [
                 'redirect' => route('register.success'),
