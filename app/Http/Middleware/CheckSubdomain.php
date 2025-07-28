@@ -22,7 +22,7 @@ class CheckSubdomain
 
         // Nếu domain không đủ 3 phần thì không phải subdomain
         if (count($parts) < 3) {
-            abort(404, 'Tên miền không hợp lệ');
+            return response()->view('errors.404new', [], 404);
         }
 
         // Tách main domain và subdomain
@@ -33,7 +33,7 @@ class CheckSubdomain
         $exists = DB::table('users')->where('subdomain', $subdomain)->exists();
 
         if (!$exists) {
-            abort(404, 'Subdomain không tồn tại');
+            return response()->view('errors.404new', [], 404);
         }
 
         // Gán subdomain vào request
