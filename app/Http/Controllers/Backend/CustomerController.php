@@ -7,6 +7,7 @@ use App\Http\Requests\CustomerRequest;
 use App\Models\Customer;
 use App\Models\CustomerCategory;
 use App\Models\Source;
+use App\Models\User;
 use App\Traits\DataTables;
 use App\Traits\QueryBuilder;
 use Carbon\Carbon;
@@ -114,14 +115,55 @@ class CustomerController extends Controller
         });
     }
 
+    // private function generateCustomerCode(): string
+    // {
+    //     $maxAttempts = 5; // thử tối đa 5 lần
+    //     $prefix = 'KH';
+
+    //     for ($i = 0; $i < $maxAttempts; $i++) {
+    //         // Tìm mã code lớn nhất đang có
+    //         $lastCode = Customer::query()
+    //             ->where('code', 'like', $prefix . '%')
+    //             ->orderByDesc(DB::raw('CAST(SUBSTRING(code, ' . (strlen($prefix) + 1) . ') AS UNSIGNED)'))
+    //             ->value('code');
+
+    //         if (!$lastCode) {
+    //             $newCode = $prefix . '00001';
+    //         } else {
+    //             $number = (int) Str::after($lastCode, $prefix);
+    //             $nextNumber = $number + 1;
+    //             $newCode = $prefix . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+    //         }
+
+    //         // Kiểm tra xem mã này đã tồn tại chưa
+    //         $exists = Customer::where('code', $newCode)->exists();
+
+    //         if (!$exists) {
+    //             return $newCode;
+    //         }
+
+    //         // Nếu trùng thì thử lại (mã đã bị tạo bởi request khác)
+    //     }
+
+    //     throw new \Exception("Không thể tạo mã khách hàng duy nhất sau nhiều lần thử.");
+    // }
+
     private function generateCustomerCode(): string
     {
-        $maxAttempts = 5; // thử tối đa 5 lần
-        $prefix = 'CRM';
+        $maxAttempts = 5;
+        $prefix = 'KH';
+
+        // Lấy subdomain từ user
+        $subdomain = User::where('id', Auth::user()->id)->value('subdomain');
+
+        if (!$subdomain) {
+            throw new \Exception("Không xác định được subdomain của người dùng.");
+        }
 
         for ($i = 0; $i < $maxAttempts; $i++) {
-            // Tìm mã code lớn nhất đang có
+            // Tìm mã code lớn nhất của khách hàng thuộc subdomain này (qua user)
             $lastCode = Customer::query()
+                ->whereHas('user', fn ($q) => $q->where('subdomain', $subdomain))
                 ->where('code', 'like', $prefix . '%')
                 ->orderByDesc(DB::raw('CAST(SUBSTRING(code, ' . (strlen($prefix) + 1) . ') AS UNSIGNED)'))
                 ->value('code');
@@ -134,14 +176,14 @@ class CustomerController extends Controller
                 $newCode = $prefix . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
             }
 
-            // Kiểm tra xem mã này đã tồn tại chưa
-            $exists = Customer::where('code', $newCode)->exists();
+            // Kiểm tra xem mã này đã tồn tại trong cùng subdomain chưa
+            $exists = Customer::where('code', $newCode)
+                ->whereHas('user', fn ($q) => $q->where('subdomain', $subdomain))
+                ->exists();
 
             if (!$exists) {
                 return $newCode;
             }
-
-            // Nếu trùng thì thử lại (mã đã bị tạo bởi request khác)
         }
 
         throw new \Exception("Không thể tạo mã khách hàng duy nhất sau nhiều lần thử.");
