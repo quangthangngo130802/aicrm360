@@ -121,6 +121,8 @@ Route::middleware(['admin.guest','subdomain'])->group(function () {
     Route::post('login', [AuthController::class, 'authenticate']);
 });
 
-Route::get('', [AuthController::class, 'registerFrom']);
+Route::middleware(['subdomain'])->group(function () {
+    Route::get('', [AuthController::class, 'registerFrom']);
+});
 Route::post('dang-ky', [AuthController::class, 'register']);
 Route::get('/dang-ky-thanh-cong', [AuthController::class, 'registerSuccess'])->name('register.success');
