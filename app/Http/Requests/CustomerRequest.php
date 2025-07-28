@@ -32,7 +32,7 @@ class CustomerRequest extends FormRequest
             'source_id'          => ['nullable'],
 
             'customer_category_id'           => ['required'],
-            // Các trường khác cho phép null
+          
             'company_name'      => ['nullable', 'string', 'max:255'],
             'company_phone'     => ['nullable', 'string', 'regex:/^0\d{9}$/'],
             'company_tax_code'  => ['nullable', 'string', 'max:100'],

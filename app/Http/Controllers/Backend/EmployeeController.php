@@ -36,7 +36,7 @@ class EmployeeController extends Controller
                 columns: ['*'],
 
             )->where('is_admin', 0)
-            ->where('parent_id', auth()->id());
+                ->where('parent_id', auth()->id());
 
             return $this->processDataTable(
                 $query,
@@ -118,7 +118,10 @@ class EmployeeController extends Controller
 
     private function generateEmployeeCode(): string
     {
+        $subdomain = auth()->user()->subdomain;
+
         $lastCode = User::query()
+            ->where('subdomain', $subdomain)
             ->where('code', 'like', 'NS%')
             ->orderByDesc(DB::raw('CAST(SUBSTRING(code, 3) AS UNSIGNED)'))
             ->value('code');
@@ -127,12 +130,9 @@ class EmployeeController extends Controller
             return 'NS00001';
         }
 
-        // Lấy phần số phía sau mã
         $number = (int) Str::after($lastCode, 'NS');
         $nextNumber = $number + 1;
 
-        // Luôn pad đến 5 chữ số
         return 'NS' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
     }
-
 }
