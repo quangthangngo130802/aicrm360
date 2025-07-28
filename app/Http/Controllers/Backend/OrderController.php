@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderRequest;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\User;
 use App\Traits\DataTables;
 use App\Traits\QueryBuilder;
 use Illuminate\Http\Request;
@@ -136,20 +137,42 @@ class OrderController extends Controller
 
     private function generateOrderCode(): string
     {
-        $lastCode = Order::query()
-            ->where('code', 'like', 'HD%')
-            ->orderByDesc(DB::raw('CAST(SUBSTRING(code, 3) AS UNSIGNED)'))
-            ->value('code');
+        $maxAttempts = 5;
+        $prefix = 'HD';
 
-        if (!$lastCode) {
-            return 'HD00001';
+        // Lấy subdomain từ user
+        $subdomain = User::where('id', Auth::user()->id)->value('subdomain');
+
+        if (!$subdomain) {
+            throw new \Exception("Không xác định được subdomain của người dùng.");
         }
 
-        // Lấy phần số phía sau mã
-        $number = (int) Str::after($lastCode, 'HD');
-        $nextNumber = $number + 1;
+        for ($i = 0; $i < $maxAttempts; $i++) {
+            // Tìm mã code lớn nhất của khách hàng thuộc subdomain này (qua user)
+            $lastCode = Order::query()
+                ->whereHas('user', fn ($q) => $q->where('subdomain', $subdomain))
+                ->where('code', 'like', $prefix . '%')
+                ->orderByDesc(DB::raw('CAST(SUBSTRING(code, ' . (strlen($prefix) + 1) . ') AS UNSIGNED)'))
+                ->value('code');
 
-        // Luôn pad đến 5 chữ số
-        return 'HD' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+            if (!$lastCode) {
+                $newCode = $prefix . '00001';
+            } else {
+                $number = (int) Str::after($lastCode, $prefix);
+                $nextNumber = $number + 1;
+                $newCode = $prefix . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+            }
+
+            // Kiểm tra xem mã này đã tồn tại trong cùng subdomain chưa
+            $exists = Order::where('code', $newCode)
+                ->whereHas('user', fn ($q) => $q->where('subdomain', $subdomain))
+                ->exists();
+
+            if (!$exists) {
+                return $newCode;
+            }
+        }
+
+        throw new \Exception("Không thể tạo mã khách hàng duy nhất sau nhiều lần thử.");
     }
 }
