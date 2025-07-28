@@ -49,7 +49,7 @@ class AuthController extends Controller
 
             // ✅ Auth đúng guard
             if (Auth::guard('admin')->attempt($credentials, $remember)) {
-                return successResponse("Đăng nhập thành công.", ['redirect' => '/']);
+                return successResponse("Đăng nhập thành công.", ['redirect' => '/dashboard']);
             }
 
             return errorResponse("Mật khẩu không chính xác!", 400, true);

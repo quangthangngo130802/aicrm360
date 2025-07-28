@@ -276,7 +276,7 @@
 
                                 <div class="text-center mt-3">
                                     <span>Bạn chưa có tài khoản?</span>
-                                    <a href="https://crm360.dev/dang-ky" class="text-decoration-none fw-bold"
+                                    <a href="https://crm360.dev" class="text-decoration-none fw-bold"
                                         style="color:#006eff;">Đăng ký ngay</a>
                                 </div>
                             </div>

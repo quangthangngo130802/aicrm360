@@ -37,7 +37,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['admin.auth', 'subdomain'])->group(function () {
 
-    Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/dashboard/filter', [DashboardController::class, 'filterDashboard'])->name('dashboard.filter');
 
     Route::post('handle-bulk-action', [BulkActionController::class, 'handleBulkAction']);
@@ -121,6 +121,6 @@ Route::middleware(['admin.guest','subdomain'])->group(function () {
     Route::post('login', [AuthController::class, 'authenticate']);
 });
 
-Route::get('dang-ky', [AuthController::class, 'registerFrom']);
+Route::get('', [AuthController::class, 'registerFrom']);
 Route::post('dang-ky', [AuthController::class, 'register']);
 Route::get('/dang-ky-thanh-cong', [AuthController::class, 'registerSuccess'])->name('register.success');
