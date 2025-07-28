@@ -126,4 +126,8 @@ class AuthController extends Controller
         // Luôn pad đến 5 chữ số
         return 'NS' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
     }
+
+    public function list_user(){
+        return 1;
+    }
 }
