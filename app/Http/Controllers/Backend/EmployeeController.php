@@ -16,6 +16,7 @@ use App\Traits\QueryBuilder;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
@@ -76,7 +77,7 @@ class EmployeeController extends Controller
             $credentials = $request->validated();
             $credentials['code'] ??= $this->generateEmployeeCode();
             $credentials['password'] = bcrypt($credentials['password']);
-            $credentials['parent_id'] = User::auth()->id;
+            $credentials['parent_id'] = Auth::user()->id;
             $credentials['subdomain'] = subdomain();
 
             if (!empty($credentials['birthday'])) {
