@@ -75,7 +75,7 @@ class EmployeeController extends Controller
             $credentials = $request->validated();
             $credentials['code'] ??= $this->generateEmployeeCode();
             $credentials['password'] = bcrypt($credentials['password']);
-
+            $credentials['parent_id'] = User::auth()->id;
             $credentials['subdomain'] = subdomain();
 
             if (!empty($credentials['birthday'])) {
