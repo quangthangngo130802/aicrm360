@@ -32,7 +32,7 @@ class CustomerRequest extends FormRequest
             'source_id'          => ['nullable'],
 
             'customer_category_id'           => ['required'],
-          
+
             'company_name'      => ['nullable', 'string', 'max:255'],
             'company_phone'     => ['nullable', 'string', 'regex:/^0\d{9}$/'],
             'company_tax_code'  => ['nullable', 'string', 'max:100'],
@@ -66,7 +66,7 @@ class CustomerRequest extends FormRequest
 
                 if ($exists) {
                     Log::info('Số điện thoại đã tồn tại');
-                    $validator->errors()->add('phone', 'Số điện thoại đã tồn tại trong subdomain này.');
+                    $validator->errors()->add('phone', 'Số điện thoại đã tồn tại .');
                 }
             }
 
@@ -78,7 +78,7 @@ class CustomerRequest extends FormRequest
 
                 if ($exists) {
                     Log::info('Email đã tồn tại');
-                    $validator->errors()->add('email', 'Email đã tồn tại trong subdomain này.');
+                    $validator->errors()->add('email', 'Email đã tồn tại.');
                 }
             }
         });

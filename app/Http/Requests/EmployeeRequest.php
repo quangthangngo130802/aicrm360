@@ -60,7 +60,7 @@ class EmployeeRequest extends FormRequest
 
                 if ($exists) {
                     Log::info('Email đã tồn tại');
-                    $validator->errors()->add('email', 'Email đã tồn tại trong subdomain này.');
+                    $validator->errors()->add('email', 'Email đã tồn tại.');
                 }
             }
 
@@ -72,7 +72,7 @@ class EmployeeRequest extends FormRequest
 
                 if ($exists) {
                     Log::info('Số điện thoại đã tồn tại');
-                    $validator->errors()->add('phone', 'Số điện thoại đã tồn tại trong subdomain này.');
+                    $validator->errors()->add('phone', 'Số điện thoại đã tồn tại.');
                 }
             }
         });
