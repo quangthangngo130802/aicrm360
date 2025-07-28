@@ -82,6 +82,7 @@ class AuthController extends Controller
 
 
             try {
+                Log::info(1);
                 Http::post('https://id.sgodata.com/api/register-crm', [
                     'name'     =>  $credentials['name'],
                     'email'    =>  $credentials['email'],
