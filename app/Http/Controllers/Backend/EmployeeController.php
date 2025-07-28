@@ -34,7 +34,8 @@ class EmployeeController extends Controller
                 model: new User,
                 columns: ['*'],
 
-            )->where('is_admin', 0);
+            )->where('is_admin', 0)
+            ->where('parent_id', auth()->id());
 
             return $this->processDataTable(
                 $query,
