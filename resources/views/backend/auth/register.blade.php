@@ -154,8 +154,8 @@
                 </div>
 
                 <div class="col-12 col-md-6 mb-2">
-                    <label class="form-label">Tên đăng nhập <span class="text-danger">*</span></label>
-                    <input type="text" name="subdomain" class="form-control" placeholder="Tên đăng nhập">
+                    <label class="form-label">Tên thương hiệu <span class="text-danger">*</span></label>
+                    <input type="text" name="subdomain" class="form-control" placeholder="VD : abc123, thuonghieu, ....">
                 </div>
 
                 <div class="col-12 col-md-6 mb-2">
