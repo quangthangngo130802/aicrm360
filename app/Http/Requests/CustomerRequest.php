@@ -57,7 +57,7 @@ class CustomerRequest extends FormRequest
         $phone = $this->input('phone');
         $email = $this->input('email');
 
-        Log::info($phone);
+
 
         if ($phone) {
             $exists = Customer::where('phone', $phone)
@@ -66,6 +66,7 @@ class CustomerRequest extends FormRequest
                 ->exists();
 
             if ($exists) {
+                Log::info('sdt tồn tại');
                 $validator->errors()->add('phone', 'Số điện thoại đã tồn tại trong này.');
             }
         }
