@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CustomerRequest extends FormRequest
@@ -21,8 +23,8 @@ class CustomerRequest extends FormRequest
         return [
             'code'               => ['nullable', 'string', 'max:50', "unique:customers,code,{$id}"],
             'name'               => ['required', 'string', 'max:255'],
-            'phone'              => ['required', 'string', 'regex:/^0\d{9}$/', "unique:customers,phone,{$id}"],
-            'email'              => ['required', 'email', 'max:255', "unique:customers,email,{$id}"],
+            'phone'              => ['required', 'string', 'regex:/^0\d{9}$/'],
+            'email'              => ['required', 'email', 'max:255'],
             'area'               => ['required', 'string', 'max:255'],
             'birthday'           => ['nullable', 'date_format:d-m-Y', 'before:today'],
             'gender'             => ['required', 'in:male,female,other'],
@@ -41,6 +43,40 @@ class CustomerRequest extends FormRequest
             'youtube_link'      => ['nullable', 'url'],
             'instagram_link'    => ['nullable', 'url'],
         ];
+    }
+    public function withValidator($validator)
+    {
+        $id = $this->route('id');
+        $userId = $this->input('user_id') ?? auth()->id();
+        $subdomain = User::where('id', $userId)->value('subdomain');
+
+        if (!$subdomain) return;
+
+        $phone = $this->input('phone');
+        $email = $this->input('email');
+
+
+        if ($phone) {
+            $exists = Customer::where('phone', $phone)
+                ->whereHas('user', fn ($q) => $q->where('subdomain', $subdomain))
+                ->when($id, fn ($q) => $q->where('id', '<>', $id))
+                ->exists();
+
+            if ($exists) {
+                $validator->errors()->add('phone', 'Số điện thoại đã tồn tại trong này.');
+            }
+        }
+
+        if ($email) {
+            $exists = Customer::where('email', $email)
+                ->whereHas('user', fn ($q) => $q->where('subdomain', $subdomain))
+                ->when($id, fn ($q) => $q->where('id', '<>', $id))
+                ->exists();
+
+            if ($exists) {
+                $validator->errors()->add('email', 'Email đã tồn tại trong này.');
+            }
+        }
     }
 
     public function messages()
