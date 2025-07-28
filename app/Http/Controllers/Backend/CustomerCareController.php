@@ -36,8 +36,13 @@ class CustomerCareController extends Controller
             ->whereIn('id', $latestCustomerCareIds) // chỉ lấy lịch mới nhất mỗi khách
             ->latest();
 
-        if (Auth::user()->is_admin == 0) {
-            $query->where('user_id', Auth::id());
+        if (is_staff()) {
+            $query->where('user_id', current_user()->id);
+        } else {
+            $query->where(function ($q) {
+                $q->where('user_id', current_user()->id)
+                    ->orWhereHas('user', fn ($q2) => $q2->where('parent_id', current_user()->id));
+            });
         }
 
         if ($request->customer) {
@@ -101,7 +106,7 @@ class CustomerCareController extends Controller
         }
 
 
-        return view('backend.customer_care.save', compact('title', 'customerCare', 'customers', 'users','results','channels'));
+        return view('backend.customer_care.save', compact('title', 'customerCare', 'customers', 'users', 'results', 'channels'));
     }
 
     public function update(CustomerCareRequest $request, $id)
@@ -140,7 +145,7 @@ class CustomerCareController extends Controller
         $customerCares = CustomerCare::where('customer_id', $customerCare->customer_id)
             ->orderBy('care_date', 'desc')
             ->get();
-            $title = 'Thông tin nhật ký khách '.$customerCare->customer->name;
+        $title = 'Thông tin nhật ký khách ' . $customerCare->customer->name;
         return view('backend.customer_care.view', compact('customerCare', 'results', 'customerCares', 'title'));
     }
 

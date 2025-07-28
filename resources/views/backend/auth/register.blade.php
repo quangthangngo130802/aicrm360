@@ -233,7 +233,18 @@
 
     <script>
         submitForm("#myForm", function(response) {
-            aicrm?.success("TĐăng ký thành công!");
+            aicrm?.success("Đăng ký thành công!");
+            if (response?.data?.redirect) {
+                // Lưu thông tin vào localStorage
+                localStorage.setItem("shopData", JSON.stringify({
+                    email: response.data.email,
+                    password: response.data.password,
+                    subdomain: response.data.subdomain,
+                }));
+
+                // Redirect
+                window.location.href = response.data.redirect;
+            }
         }, "/dang-ky");
     </script>
 

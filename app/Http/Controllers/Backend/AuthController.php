@@ -71,15 +71,28 @@ class AuthController extends Controller
     {
         return transaction(function () use ($request) {
             $credentials = $request->validated();
+            $password =  $credentials['password'];
             $credentials['code'] ??= $this->generateEmployeeCode();
             $credentials['password'] = bcrypt($credentials['password']);
             $credentials['is_admin'] = 1;
 
             User::create($credentials);
 
-            return successResponse("Đăng ký thành công", ['redirect' => '/']);
+            return successResponse("Đăng ký thành công", [
+                'redirect' => route('register.success'),
+                'email' =>   $credentials['email'],
+                'password' => $password,
+                'subdomain' =>  $credentials['subdomain'] . '.crm360.dev',
+            ]);
         });
     }
+
+    public function registerSuccess()
+    {
+        return view('success.index');
+    }
+
+
 
     private function generateEmployeeCode(): string
     {

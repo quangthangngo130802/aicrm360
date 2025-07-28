@@ -30,11 +30,15 @@ class AppointmentController extends Controller
 
         $query = Appointment::with(['customer', 'user'])->latest();
 
-        if (Auth::user()->is_admin == 0) {
-
-            $query->where('user_id', Auth::id());
+        if (is_staff()) {
+            $query->where('user_id', current_user()->id);
+        } else {
+            $query->where(function ($q) {
+                $q->where('user_id', current_user()->id)
+                    ->orWhereHas('user', fn ($q2) => $q2->where('parent_id', current_user()->id));
+            });
         }
-
+        
         if ($request->customer) {
             $query->whereHas('customer', function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->customer . '%');

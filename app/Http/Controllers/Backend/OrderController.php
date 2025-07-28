@@ -26,8 +26,14 @@ class OrderController extends Controller
                 model: new Order(),
                 columns: ['*'],
             );
-            if ($user->is_admin != 1) {
-                $query->where('user_id', $user->id);
+
+            if (is_staff()) {
+                $query->where('user_id', current_user()->id);
+            } else {
+                $query->where(function ($q) {
+                    $q->where('user_id', current_user()->id)
+                        ->orWhereHas('user', fn ($q2) => $q2->where('parent_id', current_user()->id));
+                });
             }
 
             return $this->processDataTable(

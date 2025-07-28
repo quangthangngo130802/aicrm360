@@ -23,31 +23,40 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         $title = 'Danh sách khách hàng';
-        if ($request->ajax()) {
-            $user = Auth::user();
 
+        if ($request->ajax()) {
             $query = $this->queryBuilder(
                 model: new Customer,
                 columns: ['*'],
             );
 
-            if ($user->is_admin == 0) {
-                $query->where('user_id', $user->id);
+            // Lọc theo quyền người dùng
+            if (is_staff()) {
+                $query->where('user_id', current_user()->id);
+            } else {
+                // Nếu là quản lý: lấy cả khách hàng của mình và nhân viên dưới quyền (nếu muốn)
+                $query->where(function ($q) {
+                    $q->where('user_id', current_user()->id)
+                        ->orWhereHas('user', fn ($q2) => $q2->where('parent_id', current_user()->id));
+                });
             }
 
             return $this->processDataTable(
                 $query,
                 fn ($dataTable) =>
                 $dataTable
-                    ->addColumn('username', fn ($row) => $row->user->name)
+                    ->addColumn('username', fn ($row) => $row->user->name ?? '---')
                     ->editColumn('operations', fn ($row) => view('components.operation', ['row' => $row])->render()),
                 ['username']
-
             );
         }
 
-        return view('backend.customer.index', ['isAdmin' => Auth::user()->is_admin, 'title' => $title]);
+        return view('backend.customer.index', [
+            'isAdmin' => current_user()->is_admin,
+            'title'   => $title
+        ]);
     }
+
 
     public function save(?string $id = null)
     {

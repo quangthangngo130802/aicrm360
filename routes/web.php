@@ -116,10 +116,11 @@ Route::middleware(['admin.auth', 'subdomain'])->group(function () {
 });
 
 
-Route::middleware('admin.guest')->group(function () {
+Route::middleware(['admin.guest','subdomain'])->group(function () {
     Route::get('login', [AuthController::class, 'login'])->name('login');
     Route::post('login', [AuthController::class, 'authenticate']);
 });
 
 Route::get('dang-ky', [AuthController::class, 'registerFrom']);
 Route::post('dang-ky', [AuthController::class, 'register']);
+Route::get('/dang-ky-thanh-cong', [AuthController::class, 'registerSuccess'])->name('register.success');

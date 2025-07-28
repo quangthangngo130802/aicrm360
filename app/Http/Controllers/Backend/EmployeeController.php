@@ -76,6 +76,8 @@ class EmployeeController extends Controller
             $credentials['code'] ??= $this->generateEmployeeCode();
             $credentials['password'] = bcrypt($credentials['password']);
 
+            $credentials['subdomain'] = subdomain();
+
             if (!empty($credentials['birthday'])) {
                 $credentials['birthday'] = Carbon::createFromFormat('d-m-Y', $credentials['birthday'])->format('Y-m-d');
             }
@@ -94,6 +96,7 @@ class EmployeeController extends Controller
             $credentials = $request->validated();
             $credentials['code'] ??= $this->generateEmployeeCode();
             // dd($this->generateEmployeeCode());
+            $credentials['subdomain'] = subdomain();
 
             if (!empty($credentials['birthday'])) {
                 $credentials['birthday'] = Carbon::createFromFormat('d-m-Y', $credentials['birthday'])->format('Y-m-d');
