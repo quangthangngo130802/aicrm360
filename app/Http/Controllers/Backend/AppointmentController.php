@@ -38,7 +38,7 @@ class AppointmentController extends Controller
                     ->orWhereHas('user', fn ($q2) => $q2->where('parent_id', current_user()->id));
             });
         }
-        
+
         if ($request->customer) {
             $query->whereHas('customer', function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->customer . '%');
@@ -120,11 +120,12 @@ class AppointmentController extends Controller
 
     public function view($id)
     {
+        $title = 'Chi tiết lịch hẹn';
         $appointment = Appointment::with(['customer', 'user'])->find($id);
         if (!$appointment) {
             abort(404);
         }
-        return view('backend.appointment.view', compact('appointment'));
+        return view('backend.appointment.view', compact('appointment', 'title'));
     }
 
     public function updateStatus(Request $request)
